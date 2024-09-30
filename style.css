@@ -1,0 +1,71 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: grid;
+    width: 1440px;
+    height: 1024px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.login-section {
+    background: linear-gradient(to bottom, #336ca6, #a8d5f2);
+    width: 35%;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.login-section h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.login-section input {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.login-section button {
+    width: 50%;
+    padding: 10px;
+    background-color: #1f5b8f;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.login-section button:hover {
+    background-color: #0a4d7c;
+}
+
+.login-section a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+.image-section {
+    width: 65%;
+    background-image: url('furniture.jpg');
+    background-size: cover;
+    background-position: center;
+}
