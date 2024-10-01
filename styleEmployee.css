@@ -1,0 +1,89 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #3A8D99;
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.back-button {
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+
+.settings-button {
+    color: white;
+    padding: 10px 15px;
+    /* border-radius: 5px; */
+    /* display: flex; ใช้ flex เพื่อจัดการรูปภาพและข้อความ */
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.profile-button {
+    color: white;
+    padding: 10px 15px;
+    /* border-radius: 5px; */
+    align-items: center
+}
+
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.search-box {
+    text-align: center;
+    margin: 20px;
+}
+
+.search-box input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.container {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
