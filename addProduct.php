@@ -10,7 +10,7 @@
 
 <div class="container">
     <div class="header">
-        <h1>เพิ่มสินค้า - CHAINARONG FURNITURE</h1>
+        <h1>เพิ่มสินค้า</h1>
     </div>
     <form action="add_product.php" method="POST">
         <div class="form-group">
