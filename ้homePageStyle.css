@@ -1,0 +1,101 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ส่วนหัว */
+header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.header-left h1 {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.search-bar {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    width: 200px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons img {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+    filter: brightness(0) invert(1);
+}
+
+/* เมนูหมวดหมู่ */
+.category-nav {
+    background-color: #f4f4f4;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.category-nav ul {
+    list-style-type: none;
+}
+
+.category-nav ul li {
+    display: inline-block;
+    margin: 0 20px;
+}
+
+.category-nav ul li a {
+    text-decoration: none;
+    font-size: 18px;
+    color: #333;
+}
+
+/* กริดสินค้า */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.product-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    font-size: 16px;
+    color: #333;
+    margin-top: 10px;
+}

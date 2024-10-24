@@ -1,0 +1,125 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* ส่วนหัว */
+header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+}
+
+.back-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.header-icons img {
+    width: 24px;
+    height: 24px;
+    margin-left: 15px;
+}
+
+/* คอนเทนเนอร์หลัก */
+/* White container for cart */
+.order-container {
+    display: flex;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; /* ปรับให้ scroll ได้ */
+    max-height: calc(100vh - 128px); 
+}
+
+.order-list-container h2 {
+    margin-bottom: 20px;
+}
+
+/* รายการสินค้า */
+.order-item {
+    display: flex;
+    align-items: flex-start; /* จัดตำแหน่งรูปภาพให้อยู่ด้านบน */
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    gap: 20px;
+}
+
+.item-number {
+    font-size: 18px;
+    margin-right: 20px;
+    align-self: flex-start; /* จัดตำแหน่งให้อยู่ด้านบน */
+}
+
+.order-item img {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.item-details h3 {
+    margin-bottom: 5px;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e44d26;
+}
+
+.line {
+    background-color: #3A8D99;
+    padding: 1px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+
+/* ส่วนรวมสินค้ากับปุ่ม */
+.footer-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white; /* ให้สีพื้นหลังแยกออกจากเนื้อหา */
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.order-button {
+    background-color: #004270;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
