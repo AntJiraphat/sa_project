@@ -100,3 +100,17 @@ select {
     background-color: #075389;
 }
 
+.header form input[type="text"] {
+    width: 300px;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+/* ปรับการจัดตำแหน่งให้อยู่ตรงกลาง */
+.header form {
+    position: absolute;
+    top: 20px;
+    left: 1100px; /* ปรับตำแหน่งตามต้องการ */
+}

@@ -35,7 +35,7 @@ if (!$result) {
     <div class="header">
         <a href="profileEmployee.php" class="back-button">&lt; สินค้าทั้งหมด</a>
 
-        <form action="allProductsEmployee.php" method="get" style="position: absolute; top: 28px; left: 1140px; color: white; font-size: 1.2rem; text-decoration: none;">
+        <form action="allProductsEmployee.php" method="get" style="position: absolute; top: 20px; left: 180px; color: white; font-size: 1.2rem; text-decoration: none;">
             <input type="text" name="search" placeholder="ค้นหาสินค้า" value="<?php echo htmlspecialchars($search); ?>">
         </form>
 

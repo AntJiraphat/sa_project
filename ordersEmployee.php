@@ -48,9 +48,8 @@ if (isset($_GET['search'])) {
     <div class="header">
         <a href="profileEmployee.php" class="back-button">&lt; รายการคำสั่งซื้อ</a>
 
-
-        <form action="all_products_search.php" method="get" style="position: absolute; top: 28px; left: 1140px; color: white; font-size: 1.2rem; text-decoration: none;">
-            <input type="search_box" name="search" placeholder="ค้นหารหัสคำสั่งซื้อ" value="<?php echo htmlspecialchars($search); ?>">
+        <form action="ordersEmployee.php" method="get" style="position: absolute; top: 20px; left: 180px; color: white; font-size: 1.2rem; text-decoration: none;">
+            <input type="text" name="search" placeholder="ค้นหารหัสคำสั่งซื้อ" value="<?php echo htmlspecialchars($search); ?>">
         </form>
 
         <a href="settingEmployee.php" class="settings-button" style="position: absolute; top: 20px; left: 1300px; color: white; font-size: 1.2rem; text-decoration: none;">
@@ -96,12 +95,12 @@ if (isset($_GET['search'])) {
                             <td><?php echo $order['carrierName']; ?></td>
                             <td>
                                 <select id=<?php echo $order['orderStatus']; ?> name="orderStatus">
-                                    <option value="รอดำเนินการ">รอดำเนินการ</option>
-                                    <option value="กำลังผลิต">กำลังผลิต</option>
-                                    <option value="จัดส่งสินค้า">จัดส่งสินค้า</option>
-                                    <option value="ชำระเงินแล้ว">ชำระเงินแล้ว</option>
-                                    <option value="เคลมสินค้า">เคลมสินค้า</option>
-                                    <option value="ยืนยันการรับสินค้า">ยืนยันการรับสินค้า</option>
+                                    <option value="Pending">รอดำเนินการ</option>
+                                    <option value="Currently in production">กำลังผลิต</option>
+                                    <option value="Delivery order">จัดส่งสินค้า</option>
+                                    <option value="Payment made">ชำระเงินแล้ว</option>
+                                    <option value="Claim product">เคลมสินค้า</option>
+                                    <option value="Confirm receipt of product">ยืนยันการรับสินค้า</option>
                                 </select>
                             </td>
                             <td><?php echo $order['paymaentID']; ?></td>
