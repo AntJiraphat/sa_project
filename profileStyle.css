@@ -1,0 +1,124 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 100vh;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: row; /* เปลี่ยนจาก column เป็น row */
+    align-items: center; /* จัดให้อยู่ตรงกลางตามแนวตั้ง */
+    justify-content: flex-start; /* จัดชิดซ้าย */
+    gap: 15px; /* เพิ่มระยะห่างระหว่างรูปและข้อความ */
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 0; /* ลบ margin-bottom ออก */
+    padding: 20px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-details h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.profile-details p {
+    margin: 5px 0 0 0;
+    font-size: 1rem;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.menu-item {
+    background-color: #e9f0f5;
+    margin: 10px;
+    padding: 20px;
+    width: 200px;
+    font-size: 1.5rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.menu-item:hover {
+    background-color: #cce7ff;
+}
+.menu-item  {
+    text-align: center;
+    padding: 10px;
+}
+.menu-item img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.menu-item-icon {
+    font-size: 4rem;
+    color: #004270;
+    margin-bottom: 0px;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+

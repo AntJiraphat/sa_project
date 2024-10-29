@@ -1,89 +1,79 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #F5F5F5;
     margin: 0;
     padding: 0;
 }
-
 .header {
-    background-color: #3A8D99;
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
     padding: 20px;
     text-align: left;
     color: white;
     font-size: 24px;
 }
-
 .header a {
     text-decoration: none;
     font-size: 18px;
 }
-
-.back-button {
+.back-button { /*ปุ่มกดกลับ*/
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
     margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
 }
-
-.settings-button {
+.settings-button { /*ปุ่มกดsetting*/
     color: white;
     padding: 10px 15px;
-    /* border-radius: 5px; */
-    /* display: flex; ใช้ flex เพื่อจัดการรูปภาพและข้อความ */
     align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
 }
-
 .setting-icon {
     width: 20px; /* กำหนดความกว้างของรูปภาพ */
     height: 20px; /* กำหนดความสูงของรูปภาพ */
     margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
 }
-
-.profile-button {
+.profile-button { /*ปุ่มกดprofile*/
     color: white;
     padding: 10px 15px;
-    /* border-radius: 5px; */
     align-items: center
 }
-
 .profile-icon {
     width: 20px; /* กำหนดความกว้างของรูปภาพ */
     height: 20px; /* กำหนดความสูงของรูปภาพ */
     margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
 }
-
-.search-box {
-    text-align: center;
-    margin: 20px;
+.input[type="search_box"] {
+    font-family: 'Arial', sans-serif;
+    width: 500px; /* กำหนดความกว้างที่ต้องการ */
+    padding: 600px; /* ปรับ padding ตามความต้องการ */
+    font-size: 100px; 
 }
-
-.search-box input {
-    padding: 10px;
-    width: 300px;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 16px;
-}
-
 .container {
+    margin: 0px auto;
     padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
 }
-
-table {
+table { /*ตาราง*/
     width: 100%;
     border-collapse: collapse;
     background-color: white;
 }
-
 table, th, td {
     border: 1px solid #ddd;
 }
-
 th, td {
-    padding: 12px;
+    padding: 10px;
     text-align: center;
 }
-
 th {
     background-color: #f2f2f2;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #000000;
 }

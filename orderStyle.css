@@ -1,0 +1,102 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.input[type="search_box"] {
+    font-family: 'Arial', sans-serif;
+    width: 500px; /* กำหนดความกว้างที่ต้องการ */
+    padding: 600px; /* ปรับ padding ตามความต้องการ */
+    font-size: 100px; 
+}
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    height: 100vh;
+    overflow-y: auto;
+}
+table { /*ตาราง*/
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #f2f2f2;
+}
+
+a {
+    text-decoration: none; /* ลบเส้นใต้ */
+    color: inherit; /* ใช้สีตัวอักษรปกติ */
+}
+
+select {
+    width: 150px; /* กำหนดความกว้างของ dropdown */
+    padding: 5px; /* กำหนด padding ให้พอดี */
+    font-size: 14px; /* ขนาดของตัวอักษรภายใน dropdown */
+}
+/* ปุ่มลิงก์หลักฐานการชำระเงิน */
+.button-container {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.payment-button {
+    padding: 10px 20px;
+    background-color: #004270;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.payment-button:hover {
+    background-color: #075389;
+}
+

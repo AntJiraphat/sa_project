@@ -1,73 +1,175 @@
 body {
     font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
     margin: 0;
     padding: 0;
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw; /* Full viewport width */
-    height: 100vh; /* Full viewport height */
 }
-
-.container {
-    display: grid;
-    width: 100vw; /* Full width of the viewport */
-    height: 100vh; /* Full height of the viewport */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Ensure padding doesn't affect width/height */
-}
-
-.login-section {
-    background: linear-gradient(to bottom, #336ca6, #a8d5f2);
-    width: 35%;
+.header {
+    background-color: #3A8D99;
     padding: 20px;
+    text-align: left;
     color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    /* border-radius: 5px; */
+    /* display: flex; ใช้ flex เพื่อจัดการรูปภาพและข้อความ */
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    /* border-radius: 5px; */
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.input[type="search_box"] {
+    font-family: 'Arial', sans-serif;
+    width: 500px; /* กำหนดความกว้างที่ต้องการ */
+    padding: 600px; /* ปรับ padding ตามความต้องการ */
+    font-size: 100px; 
+}
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+table { /*ตาราง*/
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
     text-align: center;
 }
-
-.login-section h1 {
-    font-size: 1.5em;
-    margin-bottom: 20px;
+th {
+    background-color: #f2f2f2;
 }
-
-.login-section input {
-    width: 80%;
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.profile-details h2, .profile-details p {
+    margin: 0;
+}
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.menu-item {
+    background-color: #e9f0f5;
+    margin: 10px;
+    padding: 20px;
+    width: 150px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.menu-item:hover {
+    background-color: #cce7ff;
+}
+.menu-item img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+.menu-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+.form-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+.left {
+    width: 20%; /* ให้ฝั่งซ้ายใช้พื้นที่ 25% เพื่อเหลือระยะห่าง */
+}
+.right {
+    width: 70%; /* ให้ฝั่งขวาใช้พื้นที่ 59% เพื่อเหลือระยะห่าง */
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #000000;
+}
+input[type="text"], input[type="number"], select, textarea {
+    width: 800px;
+    height: 40px;
     padding: 10px;
     margin-bottom: 20px;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    font-size: 1em;
+    font-size: 16px;
 }
-
-.login-section button {
-    width: 50%;
+input[type="submit"] {
+    width: 150px;
     padding: 10px;
-    background-color: #1f5b8f;
-    border: none;
-    border-radius: 5px;
+    background-color: #3A8D99;
     color: white;
+    border: none;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 16px;
 }
-
-.login-section button:hover {
-    background-color: #0a4d7c;
+input[type="submit"]:hover {
+    background-color: #0056b3;
 }
-
-.login-section a {
-    color: white;
-    text-decoration: none;
-    font-size: 0.9em;
-    margin-top: 10px;
+.image-upload {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #e0e0e0;
+    padding: 30px;
+    border-radius: 10px;
 }
-
-.image-section {
-    width: 65%;
-    background-image: url('furniture.jpg');
-    background-size: cover;
-    background-position: center;
+.image-upload input[type="file"] {
+    display: none;
+}
+.image-upload label {
+    cursor: pointer;
+}
+.image-upload label img {
+    width: 100px;
+    height: 100px;
+}
+select {
+    width: 150px; /* กำหนดความกว้างของ dropdown */
+    padding: 5px; /* กำหนด padding ให้พอดี */
+    font-size: 14px; /* ขนาดของตัวอักษรภายใน dropdown */
 }
