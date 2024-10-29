@@ -36,18 +36,6 @@
                 <a href="ordersEmployee.php">
                 <p>รายการคำสั่งซื้อ</p>
             </div>
-
-            <div class="menu-item">
-                <i class="fas fa-plus-circle menu-item-icon"></i>
-                <a href="addProduct.php">
-                <p>เพิ่มสินค้า</p>
-            </div>
-
-            <div class="menu-item">
-                <i class="fas fa-box-open menu-item-icon"></i>
-                <a href="allProductsEmployee.php">
-                <p>สินค้าทั้งหมด</p>
-            </div>
         </div>
     </div>
 </body>
