@@ -20,17 +20,11 @@
     align-items: center;
   }
   
-  .header-content {
+  .header-title {
     display: flex;
     align-items: center;
-  }
-  
-  .back-link {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    margin-right: 10px;
-  }
+    gap: 20px;
+  } 
   
   .header-icons img {
     width: 24px;
@@ -39,9 +33,14 @@
   }
   
   /* คอนเทนเนอร์หลัก */
-  .order-history-container {
-    padding: 20px;
-  }
+  .order-container {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
   
   /* card แต่ละ order */
   .order-card {
@@ -49,7 +48,11 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: calc(100vh - 128px); 
   }
 
   .order-card h2 {
@@ -67,6 +70,7 @@
   
   /* ส่วนรายละเอียด order */
   .order-details {
+    position: relative;
     display: flex;
     align-items: flex-start; /* จัดตำแหน่งเริ่มจากด้านบน */
     gap: 20px;
@@ -94,20 +98,28 @@
   }
   
   .actions {
-    margin-left: auto; /* ชิดขวา */
-    margin-top: 20px; /* เพิ่มระยะห่างด้านบน */
+    position: absolute; /* จัดตำแหน่งปุ่มแบบ absolute */
+    right: 0; /* ชิดขวา */
+    top: 0; /* ชิดบน */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
   
   .action-button {
-    display: block; /* ให้ปุ่มเรียงลงมา */
+    white-space: nowrap;
     background-color: #004270;
     color: white;
-    padding: 8px 15px;
+    padding: 8px 16px;
     border: none;
-    border-radius: 20px; /* เพิ่มความมนของมุม */
+    border-radius: 20px;
     cursor: pointer;
-    margin-bottom: 8px; /* ระยะห่างระหว่างปุ่ม */
+    transition: background-color 0.3s ease;
   }
+
+  .action-button:hover {
+    background-color: #0099cc;
+}
   
   .order-summary {
     font-size: 14px;

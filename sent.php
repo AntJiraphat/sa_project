@@ -8,8 +8,8 @@
 </head>
 <body>
     <header>
-        <div class="header-content">
-            <a href="#" class="back-link">←</a>
+        <div class="header-title">
+        <img src="images/arrow_icon.png" alt="ย้อนกลับ" role="button">
             <h1>รายการที่ต้องจัดส่ง</h1>
         </div>
         <div class="header-icons">

@@ -20,16 +20,10 @@ header {
     align-items: center;
 }
 
-.header-content {
+.header-title {
     display: flex;
     align-items: center;
-}
-
-.back-link {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    margin-right: 10px;
+    gap: 20px;
 }
 
 .header-icons img {
@@ -39,79 +33,97 @@ header {
 }
 
 /* คอนเทนเนอร์หลัก */
-/* White container for cart */
 .order-container {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 1rem;
+    padding-bottom: 80px;
     display: flex;
-    width: 100%;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex-direction: column;
     gap: 20px;
-    box-sizing: border-box;
-    overflow-y: auto; /* ปรับให้ scroll ได้ */
-    max-height: calc(100vh - 128px); 
 }
 
-.order-list-container h2 {
-    margin-bottom: 20px;
+.order-container h2 {
+    font-size: 1.5rem;
+    color: #333;
 }
 
-/* รายการสินค้า */
-.order-item {
+/* card แต่ละ order */
+.order-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    align-items: flex-start; /* จัดตำแหน่งรูปภาพให้อยู่ด้านบน */
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
+    align-items: center;
     gap: 20px;
+    position: relative;
+    overflow: hidden; /* ป้องกันไม่ให้ปุ่มหลุดออกนอกกรอบ */
+    min-height: 140px;
 }
 
-.item-number {
-    font-size: 18px;
-    margin-right: 20px;
-    align-self: flex-start; /* จัดตำแหน่งให้อยู่ด้านบน */
-}
-
-.order-item img {
-    width: 80px;
+.order-card img {
+    width: 100px;
     height: auto;
     object-fit: cover;
-    margin-right: 20px;
+    border-radius: 5px;
 }
 
-.item-details h3 {
-    margin-bottom: 5px;
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    line-height: 1.6;
+}
+
+.item-info h3 {
+    font-size: 1.2rem;
+    color: #333;
 }
 
 .price {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #e44d26;
 }
 
-.line {
-    background-color: #3A8D99;
-    padding: 1px;
-    text-align: left;
-    color: white;
-    font-size: 24px;
+/* ปุ่มลบ */
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #9b9b9b;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: color 0.3s ease;
 }
 
-/* ส่วนรวมสินค้ากับปุ่ม */
+.delete-btn:hover {
+    color: #ff4400;
+}
+
+/* ส่วนสรุปและปุ่มสั่งซื้อ */
 .footer-container {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: white; /* ให้สีพื้นหลังแยกออกจากเนื้อหา */
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* เพิ่มเงา */
+    background-color: white;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
     border-top: 1px solid #eee;
-    z-index: 1000;
     box-sizing: border-box;
+}
+
+.footer-container div {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #EE3900;
 }
 
 .order-button {
@@ -120,6 +132,11 @@ header {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-button:hover {
+    background-color: #075389;
 }
