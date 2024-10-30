@@ -1,0 +1,428 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100vh;
+    width: 100vw; 
+    overflow: hidden;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    justify-content: flex-start; /* เปลี่ยนจาก center เป็น flex-start */
+    align-items: flex-start; 
+}
+
+.login-register-section {
+    width: 487px;
+    height: 100vh;
+    padding: 40px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.register-page {
+    position: relative;
+    width: 487px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 40px;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-page a{
+    color: white; 
+    text-decoration: none; 
+}
+
+.footer-text {
+    position: absolute;
+    bottom: 0; 
+    left: 50%;
+    transform: translateX(-100%); 
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    color: black;
+}
+
+.register-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: flex-start;
+    width: 60%;
+    margin: 0 auto;
+    height: 100vh;
+    background-color: white;
+    padding: 120px 0;
+    position: relative; 
+}
+
+.register-section h1 {
+    margin-top: 20px;
+    font-size: 1.7rem;
+    text-align: center;
+    width: 100%;
+}
+
+.login-register-section input {
+    width: 70%; 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em; 
+}
+
+.register-section input {
+    max-width: 300px; 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    font-size: 1em;
+    background-color: #f0f0f0; 
+    color: #333;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.login-register-section button,
+.register-section button {
+    padding: 8px 16px; 
+    font-size: 14px; 
+    border-radius: 4px; 
+    border: none; 
+    background-color: #130f4d;
+    color: white; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    align-self: center;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+.login-register-section button:hover,
+.register-section button:hover {
+    background-color: #0a4d7c;
+}
+
+.form-btn {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    /* position: absolute;  */
+    bottom: 0;       
+    left: 0;       
+}
+
+.form-btn button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    background-color: #130f4d;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-btn button:hover {
+    background-color: #0a4d7c;
+}
+
+.login-register-section a,
+.register-section a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9em;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.image-section {
+    width: 953px;
+    height: 1024px;
+    background-image: url('images/login.png');
+    background-size: cover;
+    background-position: center;
+}
+
+#profilePreview {
+    display: none;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; 
+    margin-top: 5px;
+    margin-bottom: 5px; 
+    background-color: white; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.register-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 650px;
+    padding: 10px;
+    align-items: stretch;
+    position: relative; 
+}
+
+.register-form .input-group {
+    flex-basis: 45%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.register-form .input-group.full-width {
+    flex-basis: 100%;
+}
+
+.register-form input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 0.7rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3px;
+}
+
+.register-form input:focus {
+    border-color: #1f5b8d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+.register-form label {
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: #333;
+    display: block;
+}
+
+.profile-container {
+
+    width: 100%;
+    margin: 15px 0;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-details h2, .profile-details p {
+    margin: 0;
+}
+
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.menu-item {
+    background-color: #e9f0f5;
+    margin: 10px;
+    padding: 20px;
+    width: 150px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.menu-item:hover {
+    background-color: #cce7ff;
+}
+
+.menu-item img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+.menu-item p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+.profileUser-container {
+    display: flex;
+    background-color: white;
+    width: 100%;
+    max-width: 1440px;
+    height: 100vh;
+    border-radius: 0 0 10px 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.profileUser-header {
+    background: linear-gradient(to bottom, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    width: 1440px;
+    height: 363px;
+    border-radius: 10px 10px 0 0;
+    padding: 40px 20px;
+    position: relative;
+    text-align: left;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.back-button, .settings-button, .profile-button {
+    position: absolute;
+    color: white;
+    top: 20px;
+    font-size: 1.2rem;
+    text-decoration: none;
+    left: 20px;
+}
+
+.profileUser-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 50px;
+    margin-left: 20px;
+}
+
+.profileUser-details h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.profileUser-details p {
+    color: #888;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.profileUser-menu {
+    display: flex;
+    justify-content: space-between;
+}
+
+.profileUser-menu-item {
+    text-align: center;
+    padding: 10px;
+}
+
+.profileUser-menu-item:hover {
+    background-color: #cce7ff;
+}
+
+.profileUser-menu-item img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 20px;
+}
+
+.profileUser-menu-icon {
+    font-size: 4rem;
+    color: #3A8D99;
+    margin-bottom: 5px;
+}
+
+.profileUser-menu-item p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.additional-buttons {
+    margin-top: 20px;
+    padding: 20px 0;
+    display: flex;
+    justify-content: flex-end; 
+    margin-left: auto; 
+    width: 100%; 
+}
+
+.additional-buttons .button {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 4px;
+    background-color: #130f4d;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    margin-left: 10px;
+}
+
+.additional-buttons .button:hover {
+    background-color: #0a4d7c;
+}
+
+.back-link {
+    color: white; 
+    text-decoration: none; 
+}
+
+.register-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    font-size: 0.7rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 3px;
+}
+
+.register-form select:focus {
+    border-color: #1f5b8d;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
