@@ -148,22 +148,39 @@ header {
     gap: 10px;
 }
 
-/* Order button */
+/* Order button - Base style */
 .order-btn {
-    background-color: #004270;
+    background-color: #cccccc;
     color: white;
     border: none;
     padding: 12px 24px;
     border-radius: 5px;
     font-size: 16px;
-    cursor: pointer;
+    cursor: not-allowed;
     transition: all 0.2s ease;
+    opacity: 0.7; 
 }
 
-.order-btn:hover {
+.order-btn.active {
+    background-color: #004270;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.order-btn.active:hover {
     background-color: #075389;
     transform: translateY(-1px);
 }
+
+/* ปรับปรุงสไตล์เมื่อปุ่มถูก disabled */
+.order-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    opacity: 0.7;
+    pointer-events: none; /* ป้องกันการ hover เมื่อถูก disable */
+}
+
 
 .add-to-cart {
     background-color: #ffffff;

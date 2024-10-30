@@ -90,7 +90,7 @@ header {
 
 /* ส่วนของ Hero Banner */
 .hero-banner {
-    margin-top: 80px; /* ระยะห่างจาก fixed header */
+    margin-top: 80px;
     width: 100%;
     height: 400px;
     overflow: hidden;
@@ -101,8 +101,8 @@ header {
 .hero-banner img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* ทำให้รูปเต็มพื้นที่โดยไม่บิดเบี้ยว */
-    object-position: center; /* จัดตำแหน่งรูปให้อยู่ตรงกลาง */
+    object-fit: cover;
+    object-position: center;
 }
 
 /* เมนูหมวดหมู่ */
@@ -165,23 +165,13 @@ header {
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    text-decoration: none;
-    display: block;
-    cursor: pointer;
+    text-decoration: none; /* เพิ่มเข้ามาเพื่อลบเส้นใต้ของ link */
+    color: inherit; /* เพิ่มเข้ามาเพื่อคงสีข้อความเดิม */
 }
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-}
-
-.product-card:hover img {
-    transform: scale(1.03);
-}
-
-.product-card:active {
-    transform: translateY(-2px);
-    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
 }
 
 .product-card img {
@@ -197,16 +187,20 @@ header {
     background-color: white;
 }
 
-.product-card h3 {
-    font-size: 16px;
-    color: #333;
+.product-info h3,
+.product-info p,
+.product-price {
     margin: 0 0 8px 0;
-    font-weight: 500;
+    color: #333;
 }
 
-.product-card p {
-    color: #666; /* เพิ่มสีข้อความสำหรับรายละเอียด */
-    margin: 5px 0;
+.product-info h3 {
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.product-info p {
+    color: #666;
     font-size: 14px;
 }
 
@@ -217,7 +211,7 @@ header {
     margin-top: 10px;
 }
 
-/* เพิ่ม media queries สำหรับ responsive design */
+/* Responsive design */
 @media screen and (max-width: 1200px) {
     .product-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -231,30 +225,26 @@ header {
         padding: 20px;
     }
 
-    .product-card {
-        max-width: 600px;
-    }
-
     .product-card img {
         height: 300px;
     }
 }
 
-/* ปรับแต่งการแสดงผลเมื่อมีการเลือกข้อความ */
+/* Selection */
 .product-card ::selection {
     background-color: rgba(0, 102, 153, 0.2);
     color: #333;
 }
 
-/* เพิ่ม focus state สำหรับ accessibility */
+/* Focus state for accessibility */
 .product-card:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 102, 153, 0.3), 0 3px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* ปรับแต่ง transition ทั้งหมดให้เรียบลื่น */
+/* Smooth transition */
 .product-card,
 .product-card img,
-.product-card .product-info {
+.product-info {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

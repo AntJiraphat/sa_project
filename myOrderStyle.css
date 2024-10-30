@@ -137,6 +137,11 @@ header {
     transition: background-color 0.3s ease;
 }
 
+.order-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .order-button:hover {
     background-color: #075389;
 }

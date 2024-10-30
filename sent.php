@@ -1,4 +1,52 @@
 <!DOCTYPE html>
+<?php
+require 'database.php';
+
+// รับค่าจาก form
+$order_id = $_POST['order_id'] ?? '';
+$order_date = $_POST['order_date'] ?? '';
+$product_name = $_POST['product_name'] ?? '';
+$product_color = $_POST['product_color'] ?? '';
+$quantity = $_POST['quantity'] ?? '';
+$product_price = $_POST['product_price'] ?? '';
+$total_price = $_POST['total_price'] ?? '';
+
+// ดึงข้อมูล carrier จากตาราง users
+$sqlCarrier = "SELECT PhoneNum FROM users WHERE Role = 'Carrier' LIMIT 1";
+$resultCarrier = $conn->query($sqlCarrier);
+if (!$resultCarrier) {
+    echo "Error: " . $conn->error;
+}
+$carrierData = $resultCarrier->fetch_assoc();
+
+// ดึงข้อมูล customer จากตาราง users
+$customer_id = 'CUST001'; // ควรรับค่าจาก session จริงๆ
+$sqlCustomer = "SELECT First_name, Last_name, Address, PhoneNum FROM users WHERE User_ID = ?";
+$stmtCustomer = $conn->prepare($sqlCustomer);
+if (!$stmtCustomer) {
+    echo "Prepare failed: " . $conn->error;
+}
+$stmtCustomer->bind_param("s", $customer_id);
+if (!$stmtCustomer->execute()) {
+    echo "Execute failed: " . $stmtCustomer->error;
+}
+$resultCustomer = $stmtCustomer->get_result();
+$customerData = $resultCustomer->fetch_assoc();
+
+// บันทึกลงฐานข้อมูล orders
+$sql = "INSERT INTO orders (Order_ID, User_ID, Order_date, Order_status, Total_price, Total_product) 
+        VALUES (?, ?, ?, 'Pending', ?, ?)";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("sssdd", $order_id, $customer_id, $order_date, $total_price, $quantity);
+
+if (!$stmt->execute()) {
+    echo "Error: " . $stmt->error;
+}
+
+$stmt->close();
+$conn->close();
+?>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -22,41 +70,36 @@
     <main>
         <div class="order-details">
             <div class="order-info">
-                <p><strong>รหัสคำสั่งซื้อ</strong> P0002</p>
-                <p><strong>วันที่สั่งสินค้า</strong> 1 ส.ค.</p>
+                <p><strong>รหัสคำสั่งซื้อ</strong> <?= htmlspecialchars($order_id) ?></p>
+                <p><strong>วันที่สั่งสินค้า</strong> <?= date('d M Y H:i', strtotime($order_date)) ?></p>
             </div>
 
             <section class="delivery-info">
                 <h2>ข้อมูลการจัดส่ง</h2>
-                <p>ชื่อคนส่งสินค้า : ปัทมาพร กรุณา เบอร์โทร : 089-xxx-xxx</p>
+                <p> ผู้จัดส่ง: CHAINARONG FURNITURE
+                    เบอร์โทร: <?= isset($carrierData['PhoneNum']) ? htmlspecialchars($carrierData['PhoneNum']) : 'ไม่ระบุ' ?></p>
             </section>
 
             <section class="delivery-address">
                 <h2>ที่อยู่ในการจัดส่ง</h2>
-                <p>อมลณัฐ ไศลแก้ว เลขที่ xx หมู่บ้าน xx ซอย xx ถนน xx ตำบล xx อำเภอ xx จังหวัด xx 10000</p>
+                <p>ชื่อ: <?= isset($customerData['First_name'], $customerData['Last_name']) ? 
+                        htmlspecialchars($customerData['First_name'] . ' ' . $customerData['Last_name']) : 'ไม่ระบุ' ?><br>
+                   เบอร์โทร: <?= isset($customerData['PhoneNum']) ? htmlspecialchars($customerData['PhoneNum']) : 'ไม่ระบุ' ?><br>
+                   ที่อยู่: <?= isset($customerData['Address']) ? htmlspecialchars($customerData['Address']) : 'ไม่ระบุ' ?>
+                </p>
             </section>
 
-            <section class="order-items">
-                <h2>คำสั่งซื้อของฉัน</h2>
-                <div class="item">
-                    <img src="images/wooden_drawer.png" alt="ตู้ลิ้นชักไม้สัก 3 ชั้น" class="item-image">
-                    <div class="item-details">
-                        <h3>ตู้ลิ้นชักไม้สัก</h3>
-                        <p>จำนวน: x1</p>
-                        <p>สี: มอคค่า</p>
-                        <p class="price">฿1,500</p>
-                    </div>
+        <section class="order-items">
+            <h2>คำสั่งซื้อของฉัน</h2>
+            <div class="item">
+                <img src="<?= htmlspecialchars($productImage) ?>" alt="<?= htmlspecialchars($product_name) ?>" class="item-image">
+                <div class="item-details">
+                    <h3><?= htmlspecialchars($product_name) ?></h3>
+                    <p>จำนวน: x<?= htmlspecialchars($quantity) ?></p>
+                    <p>สี: <?= htmlspecialchars($product_color) ?></p>
+                    <p class="price">฿<?= number_format($product_price, 2) ?></p>
                 </div>
-                <div class="item">
-                    <img src="images/wooden_wardrobe.png" alt="ตู้เสื้อผ้าไม้ประดู่ 4 ประตู" class="item-image">
-                    <div class="item-details">
-                        <h3>ตู้เสื้อผ้าไม้ประดู่ 4 ประตู</h3>
-                        <p>จำนวน: x1</p>
-                        <p>สี: คาปูชิโน่</p>
-                        <p class="price">฿6,500</p>
-                    </div>
-                </div>
-            </section>
+            </div>
 
             <div class="order-status">
                 <p>สถานะ: จัดส่งสินค้า 2 ส.ค.</p>

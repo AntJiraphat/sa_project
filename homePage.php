@@ -1,6 +1,10 @@
-<?php
+<?php 
+error_reporting(E_ALL); // เปิด error reporting เพื่อดู error ทั้งหมด 
+ini_set('display_errors', 1);
+
 require 'database.php';
 
+// ประกาศตัวแปร $predefinedCategories ก่อนใช้งาน
 $predefinedCategories = [
     'Bed' => 'เตียง',
     'Cabinet' => 'ตู้เก็บของ',
@@ -8,31 +12,50 @@ $predefinedCategories = [
     'Wardrobe' => 'ตู้เสื้อผ้า'
 ];
 
-// สร้างตัวแปรเก็บหมวดหมู่ของสินค้า
-$categories = [];
-
-// ดึงข้อมูลสินค้าจากฐานข้อมูล
-$sql = "SELECT * FROM products";
+// ตรวจสอบการเชื่อมต่อ 
 if (!$conn) {
-    die("การเชื่อมต่อฐานข้อมูลล้มเหลว");
+    die("Connection failed: " . mysqli_connect_error());
 }
 
+$sql = "SELECT * FROM products";
 $result = $conn->query($sql);
 
-if ($result) {
-    while ($row = $result->fetch_assoc()) {
-        $productType = $row['Product_type'];
-        if (array_key_exists($productType, $predefinedCategories)) {
-            $categories[$productType][] = $row;
-        } else {
-            $categories['Other'][] = $row;
-        }
-    }
-    $result->close();
+if (!$result) {
+    die("Query failed: " . $conn->error);
 }
 
-// ปิดการเชื่อมต่อฐานข้อมูล
-$conn->close();
+// Debug: ดูข้อมูลที่ได้จาก query
+if ($result->num_rows > 0) {
+    $firstRow = $result->fetch_assoc();
+    echo "<!-- Debug: First row data: " . print_r($firstRow, true) . " -->";
+    $result->data_seek(0); // reset pointer กลับไปที่แถวแรก
+}
+
+// หลังจาก query
+echo "<!-- Debug: Query result: -->";
+if ($result) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<!-- Product row: ";
+        print_r($row);
+        echo " -->";
+    }
+    // Reset pointer
+    $result->data_seek(0);
+}
+
+// เก็บข้อมูลในตัวแปร categories
+$categories = [];
+while ($row = $result->fetch_assoc()) {
+    $productType = $row['Product_type'];
+    // Debug: พิมพ์ข้อมูลแต่ละแถว
+    echo "<!-- Debug: Row ID = " . $row['Product_ID'] . " -->"; // แก้เป็น Product_ID
+    
+    if (array_key_exists($productType, $predefinedCategories)) {
+        $categories[$productType][] = $row;
+    } else {
+        $categories['Other'][] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -82,24 +105,45 @@ $conn->close();
     </nav>
 
     <section class="product-grid">
-        <?php foreach ($categories as $category => $products): ?>
-            <?php foreach ($products as $product): ?>
+        <?php
+        // Debug: แสดงจำนวน categories
+        echo "<!-- Debug: Categories count: " . count($categories) . " -->"; 
+        
+        foreach ($categories as $category => $products):
+            echo "<!-- Debug: Products in $category: " . count($products) . " -->";
 
-                <div class="product-card" data-category="<?php echo htmlspecialchars($category); ?>">
-                    <a href="createOrder.php?product_id=<?php echo urlencode($product['Product_id']); ?>">
-                        <img src="<?php echo htmlspecialchars($product['Product_image']); ?>" alt="<?php echo htmlspecialchars($product['Product_name']); ?>">
+            foreach ($products as $product):
+                // Debug
+                echo "<!-- Product data in loop: ";
+                print_r($product);
+                echo " -->";
+                
+                if (isset($product['Product_ID'])) {
+                    $productUrl = 'createOrder.php?product_id=' . htmlspecialchars($product['Product_ID']);
+                    ?>
+                    <a href="<?php echo $productUrl; ?>" 
+                    class="product-card" 
+                    data-category="<?php echo htmlspecialchars($category); ?>">
+                        <img src="<?php echo htmlspecialchars($product['Product_image']); ?>"
+                            alt="<?php echo htmlspecialchars($product['Product_name']); ?>">
                         <div class="product-info">
                             <h3><?php echo htmlspecialchars($product['Product_name']); ?></h3>
                             <p>สี: <?php echo htmlspecialchars($product['Product_color']); ?></p>
-                            <div class="product-price"><?php echo number_format($product['Product_price'], 2); ?> ฿</div>
+                            <div class="product-price">
+                                <?php echo number_format($product['Product_price'], 2); ?> ฿
+                            </div>
                         </div>
                     </a>
-                </div>
-
+                    <?php
+                } else {
+                    echo "<!-- Missing Product_ID for product: ";
+                    print_r($product);
+                    echo " -->";
+                }
+                ?>
             <?php endforeach; ?>
         <?php endforeach; ?>
     </section>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -108,6 +152,15 @@ $conn->close();
             const searchInput = document.getElementById('searchInput');
             const searchIcon = document.getElementById('searchIcon');
 
+            console.log('Total product cards:', productCards.length); // Debug: จำนวน cards ทั้งหมด
+
+            productCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // ไม่ต้อง prevent default เพราะเราต้องการให้ link ทำงาน
+                    console.log('Card clicked, navigating to:', this.href);
+                });
+            });
+            
             function filterProducts(category) {
                 productCards.forEach(card => {
                     if (category === 'all' || card.dataset.category === category) {
@@ -145,16 +198,6 @@ $conn->close();
                 if (event.key === 'Enter') {
                     searchProducts();
                 }
-            });
-
-            // ป้องกันการคลิกซ้อนเมื่อกดที่การ์ด
-            productCards.forEach(card => {
-                card.addEventListener('click', function(e) {
-                    // ถ้ามีการเลือกข้อความ ไม่ต้องนำทางไปยังหน้า createOrder
-                    if (window.getSelection().toString()) {
-                        e.preventDefault();
-                    }
-                });
             });
         });
     </script>
