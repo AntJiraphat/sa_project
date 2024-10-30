@@ -24,6 +24,26 @@ if (!$result) {
     die("Query failed: " . $conn->error);
 }
 
+// ตรวจสอบว่ามีการล็อกอินอยู่แล้วหรือไม่
+if (isset($_SESSION["user"])) {
+    // ตรวจสอบ role และ redirect ไปยังหน้าที่เหมาะสม
+    switch ($_SESSION["user"]["Role"]) {
+        case "Admin":
+            header("Location: profileAdmin.php");
+            break;
+        case "Accountant":
+        case "Carrier":
+        case "Manufacturer":
+            header("Location: ordersEmployee.php");
+            break;
+        case "Customer":
+            header("Location: homePage.php");
+            break;
+        default:
+            break;
+    }
+}
+
 // Debug: ดูข้อมูลที่ได้จาก query
 if ($result->num_rows > 0) {
     $firstRow = $result->fetch_assoc();
@@ -77,9 +97,15 @@ while ($row = $result->fetch_assoc()) {
             </div>
         </div>
         <div class="header-icons">
-            <img src="images/settings_icon.png" alt="Settings">
-            <img src="images/cart_icon.png" alt="Cart">
-            <img src="images/user_icon.png" alt="User">
+            <a href="settingUser.php">
+                <i class="fas fa-cog"></i>
+            </a> 
+            <a href="cart.php">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="profileUser.php">
+                <i class="fas fa-user"></i>
+            </a>
         </div>
     </header>
 

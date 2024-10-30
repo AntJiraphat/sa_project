@@ -48,6 +48,7 @@ if (!$product) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายละเอียดสินค้า</title>
     <link rel="stylesheet" href="createOrderStyle.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
@@ -56,9 +57,18 @@ if (!$product) {
             <h1>รายละเอียดสินค้า</h1>
         </div>
         <div class="header-icons">
-            <a href="#"><img src="images/settings_icon.png" alt="Settings" class="header-icon"></a>
-            <a href="#"><img src="images/cart_icon.png" alt="Cart" class="header-icon"></a>
-            <a href="#"><img src="images/user_icon.png" alt="User" class="header-icon"></a>
+            <a href="homePage.php">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="settingUser.php">
+                <i class="fas fa-cog"></i>
+            </a> 
+            <a href="cart.php">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="profileUser.php">
+                <i class="fas fa-user"></i>
+            </a>
         </div>
     </header>
 
@@ -73,10 +83,13 @@ if (!$product) {
                     <p><strong>ขนาดสินค้า:</strong> <span class="Product_size"><?= htmlspecialchars($product['Product_size']); ?></span></p>
                     <p><strong>สี:</strong> <span class="Product_color"><?= htmlspecialchars($product['Product_color']); ?></span></p>
                 </div>
-                <p><strong>ราคา:</strong> <span class="Product_price"><?= number_format($product['Product_price'], 2); ?> ฿</span></p>
+                <p><strong>ราคาต่อชิ้น:</strong> <span class="Product_price"><?= number_format($product['Product_price'], 2); ?> ฿</span></p>
                 <div class="quantity">
                     <label for="quantity">จำนวนสินค้า:</label>
                     <input type="number" id="quantity" name="quantity" min="1" value="1">
+                </div>
+                <div class="total-price">
+                    <p>ราคารวม: <span id="total">฿<?= number_format($product['Product_price'], 2) ?></span></p>
                 </div>
                 <p id="quantity-message" style="margin-top: 5px; display: none;"></p>
             </div>
@@ -112,6 +125,19 @@ if (!$product) {
 
             function updateButtons() {
                 const quantity = parseInt(quantityInput.value);
+                const pricePerUnit = <?= $product['Product_price'] ?>;
+
+                if (quantity <= 0) {
+                    quantityInput.value = 1;
+                    updateButtons();
+                    return;
+                }
+
+                const totalPrice = quantity * pricePerUnit;
+                document.getElementById('total').textContent = '฿' + totalPrice.toLocaleString('th-TH', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
                 
                 // Reset states
                 orderButton.disabled = false;
@@ -124,7 +150,7 @@ if (!$product) {
                     orderButton.disabled = true;
                     addToCartButton.disabled = false;
                     quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'จำนวนสินค้าน้อยกว่า 20 ชิ้น กรุณาเพิ่มสินค้าลงตะกร้า';
+                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้าขั้นต่ำ 20 ชิ้น ก่อนกดสั่งสินค้า';
                 } 
                 else if (quantity >= 20 && quantity <= 200) {
                     // 20-200 ชิ้น: กดได้ทั้งสองปุ่ม
@@ -145,8 +171,6 @@ if (!$product) {
 
                 // Update hidden form quantity
                 formQuantity.value = quantity;
-                console.log("Quantity:", quantity);
-                console.log("Order Button Disabled:", orderButton.disabled);
 
             }
 
@@ -154,11 +178,6 @@ if (!$product) {
             addToCartButton.addEventListener('click', function() {
                 const quantity = document.getElementById('quantity').value;
                 const productId = '<?php echo htmlspecialchars($product["Product_ID"]); ?>';
-
-                // สร้าง FormData object
-                const formData = new FormData();
-                formData.append('product_id', productId);
-                formData.append('quantity', quantity);
 
                 if (quantity <= 200) {
                     // ปิดการใช้งานปุ่มชั่วคราว
@@ -208,7 +227,6 @@ if (!$product) {
             // Event listener สำหรับ form submit (ปุ่ม "สั่งสินค้า")
             orderForm.addEventListener('submit', function(e) {
                 const quantity = parseInt(quantityInput.value);
-                // alert('Quantity: ' + quantity);
                 if (quantity < 20 || quantity > 200) {
                     e.preventDefault();
                     alert('จำนวนสินค้าต้องอยู่ระหว่าง 20-200 ชิ้น');

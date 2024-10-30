@@ -53,6 +53,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายการที่ต้องจัดส่ง</title>
     <link rel="stylesheet" href="sentStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <header>
@@ -61,9 +62,18 @@ $conn->close();
             <h1>รายการที่ต้องจัดส่ง</h1>
         </div>
         <div class="header-icons">
-            <a href="#"><img src="images/settings_icon.png" alt="Settings" class="header-icon"></a>
-            <a href="#"><img src="images/cart_icon.png" alt="Cart" class="header-icon"></a>
-            <a href="#"><img src="images/user_icon.png" alt="User" class="header-icon"></a>
+            <a href="homePage.php">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="settingUser.php">
+                <i class="fas fa-cog"></i>
+            </a> 
+            <a href="cart.php">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="profileUser.php">
+                <i class="fas fa-user"></i>
+            </a>
         </div>
     </header>
 

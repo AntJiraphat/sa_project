@@ -126,141 +126,125 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const selectAllCheckbox = document.getElementById('select-all');
-        const productCheckboxes = document.querySelectorAll('.product-checkbox');
-        const totalPriceElement = document.querySelector('.bottom-container .product-price');
-        const decreaseButtons = document.querySelectorAll('.decrease');
-        const increaseButtons = document.querySelectorAll('.increase');
-        const checkoutButton = document.querySelector('.checkout-btn');
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const orderButton = document.getElementById('orderButton');
+            const addToCartButton = document.getElementById('addToCartButton');
+            const quantityMessage = document.getElementById('quantity-message');
+            const formQuantity = document.getElementById('form-quantity');
+            const orderForm = document.getElementById('orderForm');
 
-        // ฟังก์ชันคำนวณราคารวม
-        function updateTotalPrice() {
-            let total = 0;
-            document.querySelectorAll('.product').forEach(product => {
-                const checkbox = product.querySelector('.product-checkbox');
-                if (checkbox.checked) {
-                    const priceText = product.querySelector('.product-price').textContent;
-                    // แปลงข้อความราคาจาก "฿1,234.56" เป็นตัวเลข
-                    const price = parseFloat(priceText.replace('฿', '').replace(',', ''));
-                    const quantity = parseInt(product.querySelector('.quantity-input').value);
-                    total += price * quantity;
-                }
-            });
-            // แสดงราคารวมในรูปแบบสกุลเงินไทย
-            totalPriceElement.textContent = `รวม ฿${total.toLocaleString('th-TH', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            })}`;
-        }
-
-        // Event Listener สำหรับ checkbox เลือกทั้งหมด
-        selectAllCheckbox.addEventListener('change', function() {
-            productCheckboxes.forEach(checkbox => {
-                checkbox.checked = this.checked;
-            });
-            updateTotalPrice();
-        });
-
-        // Event Listener สำหรับแต่ละ checkbox
-        productCheckboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                // ตรวจสอบว่า checkbox ทั้งหมดถูกเลือกหรือไม่
-                const allChecked = Array.from(productCheckboxes).every(cb => cb.checked);
-                selectAllCheckbox.checked = allChecked;
-                updateTotalPrice();
-            });
-        });
-
-        // Event Listener สำหรับปุ่มเพิ่มจำนวน
-        increaseButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const input = this.parentElement.querySelector('.quantity-input');
-                const productId = this.closest('.product').dataset.productId; // ใช้ data attribute เพื่อเก็บ product ID
-                input.value = parseInt(input.value) + 1;
+            function updateButtons() {
+                const quantity = parseInt(quantityInput.value);
                 
-                // ส่ง AJAX request เพื่ออัปเดต session
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", "updateCart.php", true); // คุณอาจต้องสร้างไฟล์ updateCart.php
-                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.send(`product_id=${productId}&quantity=${input.value}`);
+                // Reset states
+                orderButton.disabled = false;
+                addToCartButton.disabled = false;
+                quantityMessage.style.display = 'none';
+                orderButton.classList.remove('active');
                 
-                if (this.closest('.product').querySelector('.product-checkbox').checked) {
-                    updateTotalPrice();
+                if (quantity <= 0) {
+                    // จำนวน 0 หรือติดลบ: ปิดปุ่มทั้งหมด
+                    orderButton.disabled = true;
+                    addToCartButton.disabled = true;
+                    quantityMessage.style.display = 'block';
+                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้ามากกว่า 0';
                 }
-            });
-        });
-
-
-        // Event Listener สำหรับปุ่มลดจำนวน
-        decreaseButtons.forEach(button => {
-            button.addEventListener('click', async function() {
-                const input = this.parentElement.querySelector('.quantity-input');
-                const currentValue = parseInt(input.value);
-                
-                if (currentValue > 1) {
-                    input.value = currentValue - 1;
-                    if (this.closest('.product').querySelector('.product-checkbox').checked) {
-                        updateTotalPrice();
-                    }
-                } else {
-                    const result = await Swal.fire({
-                        title: 'คุณแน่ใจว่าต้องการลบสินค้านี้หรือไม่?',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'ยืนยัน',
-                        cancelButtonText: 'ยกเลิก'
-                    });
-
-                    if (result.isConfirmed) {
-                        const productElement = this.closest('.product');
-                        // ลบสินค้าจาก session ด้วย AJAX
-                        const productId = productElement.querySelector('.quantity-input').dataset.productId; // ใช้ data attribute เพื่อเก็บ product ID
-                        // ส่ง AJAX request เพื่ออัปเดต session
-                        const xhr = new XMLHttpRequest();
-                        xhr.open("POST", "removeFromCart.php", true); // คุณอาจต้องสร้างไฟล์ removeFromCart.php
-                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                        xhr.send(`product_id=${productId}`);
-                        
-                        // ลบสินค้าออกจาก DOM
-                        productElement.remove();
-                        updateTotalPrice();
-                    }
+                else if (quantity < 20) {
+                    // น้อยกว่า 20 ชิ้น: กดได้แค่ add to cart
+                    orderButton.disabled = true;
+                    addToCartButton.disabled = false;
+                    quantityMessage.style.display = 'block';
+                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้าขั้นต่ำ 20 ชิ้น หากต้องการกดสั่งสินค้า';
+                } 
+                else if (quantity >= 20 && quantity <= 200) {
+                    // 20-200 ชิ้น: กดได้ทั้งสองปุ่ม
+                    orderButton.disabled = false;
+                    addToCartButton.disabled = false;
+                    orderButton.classList.add('active');
+                    quantityMessage.style.display = 'none';
+                } 
+                else if (quantity > 200) {
+                    // มากกว่า 200 ชิ้น
+                    orderButton.disabled = true;
+                    addToCartButton.disabled = true;
+                    alert("ขออภัย สินค้านี้สั่งได้สูงสุด 200 ชิ้น");
+                    quantityInput.value = 200;
+                    quantityMessage.style.display = 'block';
+                    quantityMessage.textContent = 'ขออภัย จำนวนสินค้าต้องไม่เกิน 200 ชิ้น';
                 }
-            });
-        });
 
-        // Event Listener สำหรับการแก้ไขจำนวนโดยตรง
-        const quantityInputs = document.querySelectorAll('.quantity-input');
-        quantityInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                let value = parseInt(this.value) || 1;
-                if (value < 1) value = 1;
-                this.value = value;
-                
-                if (this.closest('.product').querySelector('.product-checkbox').checked) {
-                    updateTotalPrice();
-                }
-            });
-        });
-
-        // Event Listener สำหรับปุ่มสั่งสินค้า
-        checkoutButton.addEventListener('click', function() {
-            if (validateOrder()) {
-                Swal.fire({
-                    title: 'ยืนยันการสั่งซื้อ',
-                    text: 'คำสั่งซื้อของคุณได้รับการยืนยันเรียบร้อยแล้ว',
-                    icon: 'success',
-                    confirmButtonText: 'ตกลง'
-                });
+                // Update hidden form quantity
+                formQuantity.value = quantity;
             }
-        });
 
-        // เรียกใช้ฟังก์ชันคำนวณราคาครั้งแรก
-        updateTotalPrice();
-    });
+            // Event listener สำหรับปุ่ม "เพิ่มไปยังรายการ"
+            addToCartButton.addEventListener('click', function() {
+                const quantity = parseInt(document.getElementById('quantity').value);
+                const productId = '<?php echo htmlspecialchars($product["Product_ID"]); ?>';
+
+                if (quantity > 0 && quantity <= 200) {
+                    // ปิดการใช้งานปุ่มชั่วคราว
+                    addToCartButton.disabled = true;
+
+                    // สร้าง FormData object
+                    const data = new URLSearchParams();
+                    data.append('product_id', productId);
+                    data.append('quantity', quantity.toString());
+
+                    fetch('cart.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: data.toString()
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        console.log('Response:', data);
+                        if (!data.includes('Error')) {
+                            alert("เพิ่มสินค้านี้ลงในรถเข็นของคุณแล้ว");
+                            if (confirm("ต้องการไปที่หน้ารถเข็นของคุณหรือไม่?")) {
+                                window.location.href = 'cart.php';
+                            } else {
+                                window.location.href = 'homePage.php';
+                            }
+                        } else {
+                            throw new Error(data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert("เกิดข้อผิดพลาดในการเพิ่มสินค้า: " + error);
+                    })
+                    .finally(() => {
+                        addToCartButton.disabled = false;
+                    });
+                } else if (quantity <= 0) {
+                    alert("กรุณากรอกจำนวนสินค้ามากกว่า 0");
+                } else {
+                    alert("จำนวนสินค้าต้องไม่เกิน 200 ชิ้น");
+                }
+            });
+
+            // Event listener สำหรับ form submit (ปุ่ม "สั่งสินค้า")
+            orderForm.addEventListener('submit', function(e) {
+                const quantity = parseInt(quantityInput.value);
+                if (quantity < 20 || quantity > 200) {
+                    e.preventDefault();
+                    alert('จำนวนสินค้าต้องอยู่ระหว่าง 20-200 ชิ้น สำหรับการสั่งสินค้า');
+                    return;
+                }
+                formQuantity.value = quantity;
+            });
+
+            // Input event listeners
+            quantityInput.addEventListener('input', updateButtons);
+            quantityInput.addEventListener('change', updateButtons);
+
+            // Initial update
+            updateButtons();
+        });
     </script>
 </body>
 </html>

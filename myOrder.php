@@ -23,9 +23,18 @@ function generateOrderID() {
             <h1>รายการคำสั่งซื้อของฉัน</h1>
         </div>
         <div class="header-icons">
-            <a href="#"><img src="images/settings_icon.png" alt="Settings" class="header-icon"></a>
-            <a href="#"><img src="images/cart_icon.png" alt="Cart" class="header-icon"></a>
-            <a href="#"><img src="images/user_icon.png" alt="User" class="header-icon"></a>
+            <a href="homePage.php">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="settingUser.php">
+                <i class="fas fa-cog"></i>
+            </a> 
+            <a href="cart.php">
+                <i class="fas fa-shopping-cart"></i>
+            </a>
+            <a href="profileUser.php">
+                <i class="fas fa-user"></i>
+            </a>
         </div>
     </header>
 

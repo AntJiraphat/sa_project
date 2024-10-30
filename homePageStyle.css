@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Arial', sans-serif;
 }
 
 /* ส่วนหัว */
@@ -77,14 +77,14 @@ header {
     margin-left: 20px;
 }
 
-.header-icons img {
-    width: 20px;
-    height: 20px;
+.header-icons i {
+    font-size: 20px;
+    color: white;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
 
-.header-icons img:hover {
+.header-icons i:hover {
     transform: scale(1.15);
 }
 
