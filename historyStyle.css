@@ -44,6 +44,20 @@
     white-space: nowrap;
   }
 
+    /* สไตล์ของไอคอนลูกศร */
+  .header-title i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างลูกศรและหัวข้อ */
+  }
+
+  .header-title i:hover {
+    transform: scale(1.15);
+  }
+
+
 
   /* จัดการไอคอน */
   .header-icons {

@@ -1,12 +1,66 @@
 <!DOCTYPE html>
 <?php
 require 'database.php'; 
+session_start(); 
 
-function generateOrderID() {
-    $random = str_pad(mt_rand(1, 99999999), 8, '0', STR_PAD_LEFT);
-    return 'OD' . $random;
+function generateOrderID($conn) {
+    // ฟังก์ชันสำหรับหา ID ถัดไปที่ว่าง
+    function getNextAvailableID($conn, $startID) {
+        $currentID = $startID;
+        do {
+            // เช็คว่า ID นี้มีอยู่แล้วหรือไม่
+            $sql = "SELECT Order_ID FROM orders WHERE Order_ID = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("s", $currentID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            // ถ้าไม่มี ID นี้ในระบบ ให้ใช้ ID นี้ได้
+            if ($result->num_rows == 0) {
+                return $currentID;
+            }
+            
+            // ถ้ามีแล้ว ให้เพิ่มเลขต่อไป
+            $num = intval(substr($currentID, 2));
+            $num++;
+            $currentID = 'OD' . str_pad($num, 8, '0', STR_PAD_LEFT);
+            
+            $stmt->close();
+        } while(true);
+    }
+
+    // หา Order ID ล่าสุด
+    $sql = "SELECT Order_ID FROM orders ORDER BY Order_ID DESC LIMIT 1";
+    $result = $conn->query($sql);
+    
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $lastID = intval(substr($row['Order_ID'], 2));
+        $nextID = 'OD' . str_pad($lastID + 1, 8, '0', STR_PAD_LEFT);
+    } else {
+        $nextID = 'OD00000001';
+    }
+
+    // หา ID ที่ว่างถัดไป
+    return getNextAvailableID($conn, $nextID);
 }
+
+// รับค่าจาก POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $source = $_POST['source'] ?? null;
+    $product_id = $_POST['product_id'] ?? null;
+    $productName = $_POST['product_name'] ?? null;
+    $productColor = $_POST['product_color'] ?? null;
+    $productPrice = $_POST['product_price'] ?? null;
+    $productImage = $_POST['product_image'] ?? null;
+    $productType = $_POST['product_type'] ?? null;
+    $productSize = $_POST['product_size'] ?? null;
+    $quantity = $_POST['quantity'] ?? 1;
+    $totalPrice = $productPrice * $quantity;
+}
+
 ?>
+
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -19,7 +73,7 @@ function generateOrderID() {
 
     <header>
         <div class="header-title">
-        <img src="images/arrow_icon.png" alt="ย้อนกลับ" role="button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left" onclick="window.history.back();"></i>
             <h1>รายการคำสั่งซื้อของฉัน</h1>
         </div>
         <div class="header-icons">
@@ -40,28 +94,8 @@ function generateOrderID() {
 
     <main class="order-container">
         <h2>คำสั่งซื้อของฉัน</h2>
-
-        <?php
-        // รับข้อมูลจาก createOrder.php
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $product_ID = $_POST['product_id'] ?? null;
-            $productName = $_POST['product_name'] ?? null;
-            $productColor = $_POST['product_color'] ?? null;
-            $productPrice = $_POST['product_price'] ?? null;
-            $productImage = $_POST['product_image'] ?? null;
-            $quantity = $_POST['quantity'] ?? 1;
-            $productType = $_POST['product_type'] ?? null;
-            $productSize = $_POST['product_size'] ?? null;
-
-            $totalPrice = $quantity * $productPrice;
-        } else {
-            // ถ้าไม่ใช่การ POST ให้ redirect กลับไปหน้าหลัก
-            header('Location: homePage.php');
-            exit();
-        }
-        ?>
-        <?php if ($productName && $productColor && $productPrice): ?>
-            <div class="order-card" id="order-<?= htmlspecialchars($product_ID); ?>">
+        <?php if (!empty($productName)): ?>
+            <div class="order-card" id="order-<?= htmlspecialchars($product_id); ?>">
                 <img src="<?= htmlspecialchars($productImage); ?>" 
                     alt="<?= htmlspecialchars($productName); ?>">
                 <div class="item-info">
@@ -73,21 +107,17 @@ function generateOrderID() {
                     <p class="price">฿<?= number_format($productPrice, 2); ?> / ชิ้น</p>
                     <p class="total-price">รวม: ฿<?= number_format($totalPrice, 2); ?></p>
                 </div>
-                <button class="delete-btn" onclick="removeItem('order-<?= htmlspecialchars($product_ID); ?>')">
+                <button class="delete-btn" onclick="removeItem('order-<?= htmlspecialchars($product_id); ?>')">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         <?php endif; ?>
-
-        <!-- แสดงสินค้าที่มีอยู่แล้วในคำสั่งซื้อ -->
-        <!-- Item 1, Item 2, Item 3, Item 4 -->
-
     </main>
 
     <div class="footer-container">
     <div id="total-display">รวมทั้งหมด: ฿<?= number_format($totalPrice ?? 0, 2); ?></div>
         <form action="sent.php" method="POST" id="orderForm">
-            <?php $order_id = generateOrderID(); ?>
+            <?php $order_id = generateOrderID($conn); ?>
             <input type="hidden" name="order_id" value="<?= htmlspecialchars($order_id); ?>">
             <input type="hidden" name="product_id" value="<?= htmlspecialchars($product_ID); ?>">
             <input type="hidden" name="product_name" value="<?= htmlspecialchars($productName); ?>">
@@ -105,7 +135,7 @@ function generateOrderID() {
         // Function to parse price string to number
         function parsePrice(priceString) {
             // ลบสัญลักษณ์เงินบาท คอมม่า และช่องว่าง แล้วแปลงเป็นตัวเลข
-            return parseFloat(priceText.replace(/[รวม:\s฿,]/g, '')) || 0;
+            return parseFloat(priceString.replace(/[รวม:\s฿,]/g, '')) || 0;
         }
 
         // Function to format price in Thai Baht
@@ -144,7 +174,7 @@ function generateOrderID() {
             const totalPriceInput = document.querySelector('input[name="total_price"]');
             if (totalPriceInput) {
                 totalPriceInput.value = total;
-    }
+            }
         }
 
         // Function to check if there are any items in the order
@@ -191,7 +221,6 @@ function generateOrderID() {
                     
                 // Update order button state
                 updateOrderButton();
-
             }
         }
 

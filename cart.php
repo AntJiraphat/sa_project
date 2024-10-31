@@ -1,75 +1,8 @@
 <?php
-    session_start();
-    require 'database.php';
-    var_dump($_POST);
-
-    // Debug: แสดงข้อมูลที่ได้รับ
-    error_log('Request Method: ' . $_SERVER['REQUEST_METHOD']);
-    error_log('POST data received: ' . print_r($_POST, true));
-
-    // รับค่าจาก POST method เท่านั้น
-    $product_id = filter_input(INPUT_POST, 'product_id', FILTER_SANITIZE_STRING);
-    $quantity = filter_input(INPUT_POST, 'quantity', FILTER_VALIDATE_INT);
-
-    // ตรวจสอบค่าที่ได้รับจาก POST
-    if (empty($product_id) || $quantity === false) {
-        $error = "Error: Invalid product_id or quantity";
-        error_log($error);
-        echo $error;
-        exit();
-    }
-
-    
-    // ตรวจสอบช่วงของจำนวนสินค้า
-    if ($quantity < 1 || $quantity > 200) {
-        $error = "Error: Quantity must be between 1 and 200";
-        error_log($error);
-        echo $error;
-        exit();
-    }
-
-    // ถ้าข้อมูลถูกต้อง ดำเนินการต่อ
-    try {
-
-        $stmt = $conn->prepare("SELECT * FROM products WHERE Product_ID = ?");
-        $stmt->bind_param("s", $product_id);
-
-            // Execute query
-        if (!$stmt->execute()) {
-            throw new Exception("Query execution failed: " . $stmt->error);
-        }
-
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
-
-        if (!$product) {
-            throw new Exception("Product not found");
-        }
-    
-        // สร้างหรืออัปเดตตะกร้าสินค้า
-        if (!isset($_SESSION['cart'])) {
-            $_SESSION['cart'] = [];
-        }
-
-        // เพิ่มสินค้าลงในตะกร้า
-        $_SESSION['cart'][$product_id] = [
-            'product_id' => $product['Product_ID'],
-            'product_name' => $product['Product_name'],
-            'product_price' => $product['Product_price'],
-            'product_image' => $product['Product_image'],
-            'product_color' => $product['Product_color'],
-            'quantity' => $quantity
-        ];
-
-        // Debug
-        error_log("Cart updated successfully: " . print_r($_SESSION['cart'], true));
-        
-        echo "Success: Product added to cart";
-
-    } catch (Exception $e) {
-        error_log("Database error: " . $e->getMessage());
-        echo "Error: " . $e->getMessage();;
-    }
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    var_dump($_POST); // ดูข้อมูลที่ถูกส่งมา
+    exit; // หยุดการประมวลผล
+}
 ?>
 
 <!DOCTYPE html>
@@ -78,20 +11,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รถเข็น</title>
-    <link rel="stylesheet" href="cartStyle.css"> 
+    <link rel="stylesheet" href="cartStyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
-        <div class="header-title">
-            <img src="images/arrow_icon.png" alt="Back" onclick="window.history.back();">
-            <h1>รถเข็น</h1>
-        </div>
-        <div class="header-icons">
-            <img src="images/settings_icon.png" alt="Settings">
-            <img src="images/cart_icon.png" alt="Cart">
-            <img src="images/user_icon.png" alt="User">
-        </div>
+            <div class="header-title">
+                <i class="fas fa-arrow-left" onclick="window.history.back();"></i>
+                <h1>รถเข็น</h1>
+            </div>
+            <div class="header-icons">
+                <a href="homePage.php">
+                    <i class="fas fa-home"></i>
+                </a>
+                <a href="settingUser.php">
+                    <i class="fas fa-cog"></i>
+                </a> 
+                <a href="profileUser.php">
+                    <i class="fas fa-user"></i>
+                </a>
+            </div>
     </header>
 
     <div class="cart-container">
@@ -105,12 +45,18 @@
                     <div class="product-details">
                         <div class="product-title"><?= htmlspecialchars($item['product_name']); ?></div>
                         <div class="product-color"><?= htmlspecialchars($item['product_color']); ?></div>
-                        <div class="product-price">฿<?= number_format($item['product_price'], 2); ?></div>
+                        <div class="product-price">
+                            <span class="price-label">รวม</span>
+                            <span class="price-amount" data-unit-price="<?= htmlspecialchars($item['product_price']); ?>">
+                                ฿<?= number_format($item['product_price'], 2); ?>
+                            </span>
+                        </div>
                     </div>
                     <div class="quantity-control">
                         <button class="quantity-btn decrease">-</button>
                         <input type="text" value="<?= htmlspecialchars($item['quantity']); ?>" class="quantity-input">
                         <button class="quantity-btn increase">+</button>
+                        <button class="edit-quantity-btn">แก้ไขจำนวนสินค้า</button>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -119,132 +65,153 @@
         <?php endif; ?>
     </div>
 
-    <div class="bottom-container">
-        <label><input type="checkbox" id="select-all"> ทั้งหมด</label>
-        <div class="product-price">รวม ฿0</div>
-        <button class="checkout-btn">สั่งสินค้า</button>
+    <div class="footer-container">
+        <label class="select-all-label">
+            <input type="checkbox" id="select-all"> 
+            <span>ทั้งหมด</span>
+        </label>
+        <div class="total-price">
+            <span>รวมราคาทั้งหมด</span>
+            <span class="price-amount">฿</span>
+        </div>
+        <button class="checkout-btn" onclick="orderItems()">สั่งสินค้า</button>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const quantityInput = document.getElementById('quantity');
-            const orderButton = document.getElementById('orderButton');
-            const addToCartButton = document.getElementById('addToCartButton');
-            const quantityMessage = document.getElementById('quantity-message');
-            const formQuantity = document.getElementById('form-quantity');
-            const orderForm = document.getElementById('orderForm');
+            const selectAllCheckbox = document.getElementById('select-all');
+            const productCheckboxes = document.querySelectorAll('.product-checkbox');
+            const totalPriceElement = document.querySelector('.footer-container .price-amount');
+            const decreaseButtons = document.querySelectorAll('.decrease');
+            const increaseButtons = document.querySelectorAll('.increase');
+            const quantityInputs = document.querySelectorAll('.quantity-input');
 
-            function updateButtons() {
-                const quantity = parseInt(quantityInput.value);
+            function updateItemPrice(product) {
+                const quantity = parseInt(product.querySelector('.quantity-input').value) || 0;
+                const priceElement = product.querySelector('.price-amount');
+                const unitPrice = parseFloat(priceElement.getAttribute('data-unit-price')) || 0;
                 
-                // Reset states
-                orderButton.disabled = false;
-                addToCartButton.disabled = false;
-                quantityMessage.style.display = 'none';
-                orderButton.classList.remove('active');
-                
-                if (quantity <= 0) {
-                    // จำนวน 0 หรือติดลบ: ปิดปุ่มทั้งหมด
-                    orderButton.disabled = true;
-                    addToCartButton.disabled = true;
-                    quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้ามากกว่า 0';
-                }
-                else if (quantity < 20) {
-                    // น้อยกว่า 20 ชิ้น: กดได้แค่ add to cart
-                    orderButton.disabled = true;
-                    addToCartButton.disabled = false;
-                    quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้าขั้นต่ำ 20 ชิ้น หากต้องการกดสั่งสินค้า';
-                } 
-                else if (quantity >= 20 && quantity <= 200) {
-                    // 20-200 ชิ้น: กดได้ทั้งสองปุ่ม
-                    orderButton.disabled = false;
-                    addToCartButton.disabled = false;
-                    orderButton.classList.add('active');
-                    quantityMessage.style.display = 'none';
-                } 
-                else if (quantity > 200) {
-                    // มากกว่า 200 ชิ้น
-                    orderButton.disabled = true;
-                    addToCartButton.disabled = true;
-                    alert("ขออภัย สินค้านี้สั่งได้สูงสุด 200 ชิ้น");
-                    quantityInput.value = 200;
-                    quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'ขออภัย จำนวนสินค้าต้องไม่เกิน 200 ชิ้น';
-                }
-
-                // Update hidden form quantity
-                formQuantity.value = quantity;
+                const total = quantity * unitPrice;
+                priceElement.textContent = `฿${total.toLocaleString('th-TH', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
             }
 
-            // Event listener สำหรับปุ่ม "เพิ่มไปยังรายการ"
-            addToCartButton.addEventListener('click', function() {
-                const quantity = parseInt(document.getElementById('quantity').value);
-                const productId = '<?php echo htmlspecialchars($product["Product_ID"]); ?>';
+            function updateTotalPrice() {
+                let total = 0;
+                document.querySelectorAll('.product').forEach(product => {
+                    if (product.querySelector('.product-checkbox').checked) {
+                        const quantity = parseInt(product.querySelector('.quantity-input').value) || 0;
+                        const priceElement = product.querySelector('.price-amount');
+                        const unitPrice = parseFloat(priceElement.getAttribute('data-unit-price')) || 0;
+                        total += quantity * unitPrice;
+                    }
+                });
 
-                if (quantity > 0 && quantity <= 200) {
-                    // ปิดการใช้งานปุ่มชั่วคราว
-                    addToCartButton.disabled = true;
+                totalPriceElement.textContent = `฿${total.toLocaleString('th-TH', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+            }
 
-                    // สร้าง FormData object
-                    const data = new URLSearchParams();
-                    data.append('product_id', productId);
-                    data.append('quantity', quantity.toString());
-
-                    fetch('cart.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: data.toString()
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        console.log('Response:', data);
-                        if (!data.includes('Error')) {
-                            alert("เพิ่มสินค้านี้ลงในรถเข็นของคุณแล้ว");
-                            if (confirm("ต้องการไปที่หน้ารถเข็นของคุณหรือไม่?")) {
-                                window.location.href = 'cart.php';
-                            } else {
-                                window.location.href = 'homePage.php';
-                            }
-                        } else {
-                            throw new Error(data);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert("เกิดข้อผิดพลาดในการเพิ่มสินค้า: " + error);
-                    })
-                    .finally(() => {
-                        addToCartButton.disabled = false;
-                    });
-                } else if (quantity <= 0) {
-                    alert("กรุณากรอกจำนวนสินค้ามากกว่า 0");
-                } else {
-                    alert("จำนวนสินค้าต้องไม่เกิน 200 ชิ้น");
-                }
+            selectAllCheckbox.addEventListener('change', function() {
+                productCheckboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateTotalPrice();
             });
 
-            // Event listener สำหรับ form submit (ปุ่ม "สั่งสินค้า")
-            orderForm.addEventListener('submit', function(e) {
-                const quantity = parseInt(quantityInput.value);
-                if (quantity < 20 || quantity > 200) {
-                    e.preventDefault();
-                    alert('จำนวนสินค้าต้องอยู่ระหว่าง 20-200 ชิ้น สำหรับการสั่งสินค้า');
-                    return;
-                }
-                formQuantity.value = quantity;
+            productCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const allChecked = [...productCheckboxes].every(cb => cb.checked);
+                    selectAllCheckbox.checked = allChecked;
+                    updateTotalPrice();
+                });
             });
 
-            // Input event listeners
-            quantityInput.addEventListener('input', updateButtons);
-            quantityInput.addEventListener('change', updateButtons);
+            decreaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const product = this.closest('.product');
+                    const input = product.querySelector('.quantity-input');
+                    let value = parseInt(input.value);
+                    if (value > 1) {
+                        input.value = value - 1;
+                        updateItemPrice(product);
+                        updateTotalPrice();
+                    }
+                });
+            });
 
-            // Initial update
-            updateButtons();
+            increaseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const product = this.closest('.product');
+                    const input = product.querySelector('.quantity-input');
+                    let value = parseInt(input.value);
+                    if (value < 200) {
+                        input.value = value + 1;
+                        updateItemPrice(product);
+                        updateTotalPrice();
+                    }
+                });
+            });
+
+            quantityInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const product = this.closest('.product');
+                    let value = parseInt(this.value);
+                    if (value < 1) {
+                        this.value = 1;
+                        value = 1;
+                    } else if (value > 200) {
+                        this.value = 200;
+                        value = 200;
+                    }
+                    updateItemPrice(product);
+                    updateTotalPrice();
+                });
+            });
+
+            document.querySelectorAll('.product').forEach(product => {
+                updateItemPrice(product);
+            });
+            updateTotalPrice();
         });
+
+        function orderItems() {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "myOrder.php"; // ตรวจสอบว่า URL นี้ถูกต้อง
+
+            // เพิ่ม input สำหรับ source และ product_id
+            const sourceInput = document.createElement("input");
+            sourceInput.type = "hidden";
+            sourceInput.name = "source";
+            sourceInput.value = "cart"; // กำหนดค่าที่จะส่งไป
+
+            form.appendChild(sourceInput);
+
+            const productIDs = document.querySelectorAll('.product-checkbox:checked');
+            productIDs.forEach((checkbox) => {
+                const productID = checkbox.value; // หรือดึงค่าจาก attribute อื่น ๆ
+                const productInput = document.createElement("input");
+                productInput.type = "hidden";
+                productInput.name = "product_id[]"; // หรือชื่อที่คุณต้องการ
+                productInput.value = productID; // ค่าที่คุณต้องการส่ง
+
+                form.appendChild(productInput);
+            });
+
+            if (productIDs.length === 0) {
+                alert("กรุณาเลือกสินค้าก่อนสั่งซื้อ");
+                return;
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+
     </script>
 </body>
 </html>

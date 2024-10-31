@@ -44,6 +44,20 @@ header {
     white-space: nowrap;
 }
 
+/* สไตล์ของไอคอนลูกศร */
+.header-title i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างลูกศรและหัวข้อ */
+}
+
+.header-title i:hover {
+    transform: scale(1.15);
+}
+
+
 /* จัดการไอคอน */
 .header-icons {
     display: flex;
@@ -181,9 +195,10 @@ header {
     font-size: 16px;
     cursor: not-allowed;
     transition: all 0.2s ease;
-    opacity: 0.7; 
+    opacity: 0.7;
 }
 
+/* Active state */
 .order-btn.active {
     background-color: #004270;
     cursor: pointer;

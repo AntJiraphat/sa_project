@@ -44,6 +44,20 @@ header {
     white-space: nowrap;
 }
 
+/* สไตล์ของไอคอนลูกศร */
+.header-title i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างลูกศรและหัวข้อ */
+}
+
+.header-title i:hover {
+    transform: scale(1.15);
+}
+
+
 
 /* จัดการไอคอน */
 .header-icons {
@@ -139,4 +153,46 @@ h2 {
     bottom: 20px; /*  เว้นระยะห่างจากขอบล่าง  20px  */
     margin: 0;
     font-size: 14px;
+}
+
+.alert {
+    margin-top: 100px; /* ให้อยู่ใต้ header */
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #004270;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #006699;
 }

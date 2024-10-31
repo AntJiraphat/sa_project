@@ -53,7 +53,7 @@ if (!$product) {
 <body>
     <header>
         <div class="header-title">
-            <img src="images/arrow_icon.png" alt="ย้อนกลับ" role="button" onclick="window.history.back();">
+            <i class="fas fa-arrow-left" onclick="window.history.back();"></i>
             <h1>รายละเอียดสินค้า</h1>
         </div>
         <div class="header-icons">
@@ -88,10 +88,10 @@ if (!$product) {
                     <label for="quantity">จำนวนสินค้า:</label>
                     <input type="number" id="quantity" name="quantity" min="1" value="1">
                 </div>
+                <p id="quantity-message" style="margin-top: 5px; display: none;"></p>
                 <div class="total-price">
                     <p>ราคารวม: <span id="total">฿<?= number_format($product['Product_price'], 2) ?></span></p>
                 </div>
-                <p id="quantity-message" style="margin-top: 5px; display: none;"></p>
             </div>
         </div>
     </main>
@@ -110,22 +110,21 @@ if (!$product) {
             <input type="hidden" name="product_type" value="<?= htmlspecialchars($product['Product_type']); ?>">
             <input type="hidden" name="product_size" value="<?= htmlspecialchars($product['Product_size']); ?>">
             <input type="hidden" name="quantity" id="form-quantity" value="1">
-            <button type="submit" class="order-btn" id="orderButton">สั่งสินค้า</button>
+            <button type="submit" class="order-btn" id="orderButton" disabled>สั่งสินค้า</button>
         </form>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const quantityInput = document.getElementById('quantity');
-            const orderButton = document.getElementById('orderButton');
             const addToCartButton = document.getElementById('addToCartButton');
-            const quantityMessage = document.getElementById('quantity-message');
-            const formQuantity = document.getElementById('form-quantity');
-            const orderForm = document.getElementById('orderForm');
+            const orderButton = document.querySelector('.order-btn');
 
             function updateButtons() {
                 const quantity = parseInt(quantityInput.value);
                 const pricePerUnit = <?= $product['Product_price'] ?>;
+
+                console.log('Current quantity:', quantity); // เพิ่ม log
 
                 if (quantity <= 0) {
                     quantityInput.value = 1;
@@ -133,46 +132,27 @@ if (!$product) {
                     return;
                 }
 
+                // Update order button state
+                if (quantity >= 20 && quantity <= 200) {
+                    console.log('Enabling order button'); // เพิ่ม log
+                    orderButton.classList.add('active');
+                    orderButton.disabled = false;
+                } else {
+                    console.log('Disabling order button'); // เพิ่ม log
+                    orderButton.classList.remove('active');
+                    orderButton.disabled = true;
+                }
+
                 const totalPrice = quantity * pricePerUnit;
                 document.getElementById('total').textContent = '฿' + totalPrice.toLocaleString('th-TH', {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2
                 });
-                
-                // Reset states
-                orderButton.disabled = false;
-                addToCartButton.disabled = false;
-                quantityMessage.style.display = 'none';
-                orderButton.classList.remove('active');
-                
-                if (quantity < 20) {
-                    // น้อยกว่า 20 ชิ้น: กดได้แค่ add to cart
-                    orderButton.disabled = true;
-                    addToCartButton.disabled = false;
-                    quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'กรุณากรอกจำนวนสินค้าขั้นต่ำ 20 ชิ้น ก่อนกดสั่งสินค้า';
-                } 
-                else if (quantity >= 20 && quantity <= 200) {
-                    // 20-200 ชิ้น: กดได้ทั้งสองปุ่ม
-                    orderButton.disabled = false;
-                    orderButton.classList.add('active');
-                    addToCartButton.disabled = false;
-                    quantityMessage.style.display = 'none';
-                } 
-                else if (quantity > 200) {
-                    // มากกว่า 200 ชิ้น
-                    orderButton.disabled = true;
-                    addToCartButton.disabled = true;
-                    alert("ขออภัย สินค้านี้กดสั่งได้สูงสุด 200 ชิ้น");
-                    quantityInput.value = 200;
-                    quantityMessage.style.display = 'block';
-                    quantityMessage.textContent = 'ขออภัย จำนวนสินค้าต้องไม่เกิน 200 ชิ้น';
-                }
-
-                // Update hidden form quantity
-                formQuantity.value = quantity;
-
             }
+            
+            quantityInput.addEventListener('input', updateButtons);
+            quantityInput.addEventListener('change', updateButtons);
+            quantityInput.addEventListener('keyup', updateButtons);
 
             // Event listener สำหรับปุ่ม "เพิ่มไปยังรายการ"
             addToCartButton.addEventListener('click', function() {
@@ -187,6 +167,12 @@ if (!$product) {
                     const data = new URLSearchParams();
                     data.append('product_id', productId);
                     data.append('quantity', quantity.toString());
+                    data.append('product_name', '<?php echo htmlspecialchars($product["Product_name"]); ?>');
+                    data.append('product_color', '<?php echo htmlspecialchars($product["Product_color"]); ?>');
+                    data.append('product_price', '<?php echo htmlspecialchars($product["Product_price"]); ?>');
+                    data.append('product_image', '<?php echo htmlspecialchars($product["Product_image"]); ?>');
+                    data.append('product_type', '<?php echo htmlspecialchars($product["Product_type"]); ?>');
+                    data.append('product_size', '<?php echo htmlspecialchars($product["Product_size"]); ?>');
 
                     fetch('cart.php', {
                         method: 'POST',
@@ -202,13 +188,13 @@ if (!$product) {
                         if (!data.includes('Error')) {
                             alert("เพิ่มสินค้านี้ลงในรถเข็นของคุณแล้ว");
                             if (confirm("ต้องการไปที่หน้ารถเข็นของคุณหรือไม่?")) {
+                                // ส่งข้อมูลไปยัง cart.php และเปิดหน้า cart.php
                                 window.location.href = 'cart.php';
                             } else {
                                 window.location.href = 'homePage.php';
                             }
                         } else {
                             throw new Error(data);
-
                         }
                     })
                     .catch(error => {
@@ -224,25 +210,20 @@ if (!$product) {
                 }
             });
 
-            // Event listener สำหรับ form submit (ปุ่ม "สั่งสินค้า")
-            orderForm.addEventListener('submit', function(e) {
-                const quantity = parseInt(quantityInput.value);
-                if (quantity < 20 || quantity > 200) {
-                    e.preventDefault();
-                    alert('จำนวนสินค้าต้องอยู่ระหว่าง 20-200 ชิ้น');
-                    return;
-                }
-                // อัพเดทค่า quantity ใน form ก่อน submit
-                formQuantity.value = quantity;
+            // Event listener for the order button
+            orderButton.addEventListener('click', function(event) {
+                    const quantity = parseInt(quantityInput.value);
+                    if (quantity < 20 || quantity > 200) {
+                        event.preventDefault();
+                        alert("จำนวนสินค้าต้องอยู่ระหว่าง 20 ถึง 200 ชิ้น");
+                        return;
+                    }
+                    document.getElementById('form-quantity').value = quantity;
+                });
+
+                // Initial call to set button states
+                updateButtons();
             });
-
-            // Input event listeners
-            quantityInput.addEventListener('input', updateButtons);
-            quantityInput.addEventListener('change', updateButtons);
-
-            // เรียกใช้ฟังก์ชัน updateButtons ครั้งแรก
-            updateButtons();
-        });
     </script>
 </body>
 </html>

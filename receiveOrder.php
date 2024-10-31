@@ -10,7 +10,7 @@
 <body>
    <header>
     <div class="header-title">
-      <img src="images/arrow_icon.png" alt="ย้อนกลับ" role="button">
+      <i class="fas fa-arrow-left" onclick="window.history.back();"></i>
       <h1>รายการที่ต้องได้รับ</h1>
     </div>
     <div class="header-icons">
