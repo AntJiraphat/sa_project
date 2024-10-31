@@ -57,7 +57,7 @@ body {
 
 .image-section {
     flex: 1; 
-    background-image: url('images/image.png');
+    background-image: url('images\hero_banner.png');
     background-size: cover;
     background-position: center;
 }

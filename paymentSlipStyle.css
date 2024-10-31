@@ -1,0 +1,126 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow-y: auto;
+    height: 100vh;
+}
+
+.containerReceipt, .containerSlip {
+    flex: 1; /* ให้แต่ละส่วนมีขนาดเท่ากัน */
+    margin: 10px;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff; /* เปลี่ยนสีพื้นหลังตามต้องการ */
+}
+
+.image-upload img{
+    width: 400px;
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+}
+.image-upload input {
+    display: none;
+}
+
+.line {
+    background-color: #004270;
+    padding: 1px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+
+.buttomContainer {
+    display: flex;
+    justify-content: right; /* จัดตำแหน่งไปทางขวา */
+    margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
+}
+
+.buttomContainer button {
+    padding: 15px 30px;
+    background-color: #004270;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.buttomContainer button:hover {
+    background-color: #075389;
+}
+
+
+.delete-button {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 20px;
+    background-color: #006699;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.save-button:hover {
+    background-color: #004270;
+}
+
+.delete-button {
+    background-color: #CC0000;
+}
+
+.delete-button:hover {
+    background-color: #990000;
+}
+
+.delete-button i {
+    font-size: 18px;
+}

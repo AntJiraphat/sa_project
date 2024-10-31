@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <p><a href="register.php">สร้างบัญชีผู้ใช้</a> | <a href="changePassword.php">ลืมรหัสผ่าน</a></p>
         </div>
-        <div class="image-section"></div>
+        <div class="image-sectionn"></div>
     </div>
 </body>
 </html>

@@ -67,7 +67,7 @@ error_log("User Role: " . $_SESSION["user"]["Role"]);
                 <p>เพิ่มสินค้า</p>
             </a>
 
-            <a href="allProductEmployee.php" class="profileUser-menu-item">
+            <a href="allProductsEmployee.php" class="profileUser-menu-item">
                 <i class="fas fa-box-open profileUser-menu-icon"></i>
                 <p>สินค้าทั้งหมด</p>
             </a>

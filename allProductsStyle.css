@@ -1,0 +1,100 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.input[type="text"] {
+    font-family: 'Arial', sans-serif;
+    width: 500px; /* กำหนดความกว้างที่ต้องการ */
+    padding: 600px; /* ปรับ padding ตามความต้องการ */
+    font-size: 100px; 
+}
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+table { /*ตาราง*/
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+}
+table th,table td {
+    text-align: center; /* จัดชิดซ้าย */
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+table td:nth-child(4) { /* กำหนดเฉพาะคอลัมน์รายละเอียด */
+    max-width: 400px; /* ตั้งความกว้างสูงสุดของคอลัมน์ */
+    text-align: left;
+    white-space: normal; /* ให้ข้อความขึ้นบรรทัดใหม่ */
+}
+
+a {
+    text-decoration: none; /* ลบเส้นใต้ */
+    color: inherit; /* ใช้สีตัวอักษรปกติ */
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #000000;
+}
+.header form input[type="text"] {
+    width: 300px;
+    padding: 5px;
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+/* ปรับการจัดตำแหน่งให้อยู่ตรงกลาง */
+.header form {
+    position: absolute;
+    top: 20px;
+    left: 1100px; /* ปรับตำแหน่งตามต้องการ */
+}

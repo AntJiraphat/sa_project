@@ -1,0 +1,122 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.container {
+    margin: 0px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.order-details {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%; /* ปรับเป็น 100%  */
+    position: relative;
+    box-sizing: border-box;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 18px;
+    color: #004270;
+    margin-top: 0;
+}
+.delivery-info,
+.delivery-address {
+    margin-bottom: 20px;
+}
+
+.item {
+    display: flex;
+    align-items: center; 
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.item-details h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.item-details p {
+    margin: 5px 0;
+}
+
+.price {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.order-status {
+    background-color: #062C43;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 31px;
+    text-align: center;
+    font-weight: bold;
+    position: absolute; 
+    right: 20px; /*  เว้นระยะห่างจากขอบขวา  20px  */
+    bottom: 20px; /*  เว้นระยะห่างจากขอบล่าง  20px  */
+    margin: 0;
+    font-size: 14px;
+}
