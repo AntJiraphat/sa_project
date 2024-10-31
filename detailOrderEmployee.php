@@ -1,52 +1,49 @@
 <?php
-// ตัวอย่างข้อมูลคำสั่งซื้อ
-$orders = [
-    ['orderID' => 'P001', 'userID' => 'asdfgh456', 'orderDate' => '01/09/2567', 'receiveOrderDate' => '02/09/2567', 'totalPrice' => '3,000', 'carrierName' => 'ปัทมาพร', 'orderStatus' => 'รอดำเนินการ', 'paymaentID' => 'PM001'],
-    ['orderID' => 'P002', 'userID' => 'asdfgh456', 'orderDate' => '01/09/2567', 'receiveOrderDate' => '02/09/2567', 'totalPrice' => '3,000', 'carrierName' => 'ปัทมาพร', 'orderStatus' => 'รอดำเนินการ', 'paymaentID' => 'PM002'],
-    // เพิ่มรายการคำสั่งซื้ออย่างเพิ่มเติมได้ที่นี่
-];
+// นำเข้าไฟล์ database.php เพื่อเชื่อมต่อฐานข้อมูล
+require 'database.php';
 
-$order_products = [
-    [
-        'orderID' => 'P001',
-        'customerName' => 'อมลณัฐ โศลาแก้ว',
-        'address' => 'อมลณัฐ โศลาแก้ว เลขที่ xx หมู่บ้าน xx ซอย xx ถนน xx ตำบล xx อำเภอ xx จังหวัด xx 10000',
-        'items' => [
-            ['code' => 'D001', 'name' => 'ตู้ลิ้นชักไม้สัก 3 ชั้น', 'color' => 'มอคค่า', 'quantity' => 1, 'price' => 1500, 'image_product' => 'images/w001.png'],
-            ['code' => 'W002', 'name' => 'ตู้เสื้อผ้าไม้ประตู 4 ประตู', 'color' => 'มอคค่า', 'quantity' => 1, 'price' => 1500, 'image_product' => 'images/w001.png']
-        ],
-        'status' => 'จัดส่งสำเร็จ 2 ส.ค.'
-    ],[
-        'orderID' => 'P002',
-        'customerName' => 'อมลณัฐ โศลาแก้ว',
-        'address' => 'อมลณัฐ โศลาแก้ว เลขที่ xx หมู่บ้าน xx ซอย xx ถนน xx ตำบล xx อำเภอ xx จังหวัด xx 10000',
-        'items' => [
-            ['code' => 'D001', 'name' => 'ตู้ลิ้นชักไม้สัก 3 ชั้น', 'color' => 'มอคค่า', 'quantity' => 1, 'price' => 1500, 'image_product' => 'images/w001.png'],
-            ['code' => 'W002', 'name' => 'ตู้เสื้อผ้าไม้ประตู 4 ประตู', 'color' => 'มอคค่า', 'quantity' => 1, 'price' => 1500, 'image_product' => 'images/w001.png']
-        ],
-        'status' => 'จัดส่งสำเร็จ 2 ส.ค.'
-    ],
-    // เพิ่มข้อมูลคำสั่งซื้อตัวอย่างเพิ่มเติมที่นี่
-];
-
-// ตรวจสอบการส่ง orderID เข้ามา
+// ตั้งค่าเริ่มต้นตัวแปรข้อมูลคำสั่งซื้อและรายการสินค้า
 $order = null;
-$order_product = null;
-if (isset($_GET['orderID'])) {
-    $orderID = $_GET['orderID'];
-    // ค้นหาข้อมูลคำสั่งซื้อ
-    foreach ($orders as $o) {
-        if ($o['orderID'] === $orderID) {
-            $order = $o;
-            break;
+$order_products = [];
+
+// ตรวจสอบการส่ง order_ID เข้ามา
+if (isset($_GET['order_ID'])) {
+    $order_ID = $conn->real_escape_string($_GET['order_ID']);
+    
+    // ดึงข้อมูลคำสั่งซื้อจากตาราง orders
+    $sql_order = "SELECT * FROM orders WHERE Order_ID = '$order_ID'";
+    $result_order = $conn->query($sql_order);
+    if ($result_order && $result_order->num_rows > 0) {
+        $order = $result_order->fetch_assoc();
+
+        // ดึงข้อมูลที่อยู่ของผู้ใช้จากตาราง USERS โดยใช้ User_ID
+        $user_ID = $order['User_ID'];
+        $sql_user = "SELECT Address FROM USERS WHERE User_ID = '$user_ID'";
+        $result_user = $conn->query($sql_user);
+        if ($result_user && $result_user->num_rows > 0) {
+            $user = $result_user->fetch_assoc();
+            $order['delivery_address'] = $user['Address'];
         }
     }
-    
-    // ค้นหาข้อมูลสินค้าของคำสั่งซื้อนี้
-    foreach ($order_products as $op) {
-        if ($op['orderID'] === $orderID) {
-            $order_product = $op;
-            break;
+
+    // ดึงข้อมูลสินค้าของคำสั่งซื้อนี้จากตาราง order_products
+    $sql_products = "SELECT * FROM order_products WHERE Order_ID = '$order_ID'";
+    $result_products = $conn->query($sql_products);
+    if ($result_products && $result_products->num_rows > 0) {
+        while ($product = $result_products->fetch_assoc()) {
+
+            // ดึงชื่อสินค้าและสีจากตาราง products โดยใช้ Product_ID
+            $product_ID = $product['Product_ID'];
+            $sql_product_details = "SELECT Product_name, Product_color, Product_image FROM products WHERE Product_ID = '$product_ID'";
+            $result_product_details = $conn->query($sql_product_details);
+            if ($result_product_details && $result_product_details->num_rows > 0) {
+                $product_details = $result_product_details->fetch_assoc();
+                $product['name'] = $product_details['Product_name'];
+                $product['color'] = $product_details['Product_color'];
+                $product['image_product'] = $product_details['Product_image'];
+            }
+            
+            $order_products[] = $product;
         }
     }
 }
@@ -62,7 +59,6 @@ if (isset($_GET['orderID'])) {
     <link rel="stylesheet" href="detailStyle.css">
 </head>
 <body>
-
     <div class="header">
         <a href="ordersEmployee.php" class="back-button">&lt; รายละเอียดคำสั่งซื้อ</a>
 
@@ -73,44 +69,64 @@ if (isset($_GET['orderID'])) {
         <a href="profileEmployee.php" class="profile-button" style="position: absolute; top: 20px; left: 1350px; color: white; font-size: 1.2rem; text-decoration: none;">
             <i class="fas fa-user profile-icon"></i>
         </a>
-        
     </div>
 
     <div class="container">
-        <div class="order-info">
-            <p><strong>รหัสคำสั่งซื้อ</strong> <?php echo $order['orderID']; ?></p>
-            <p><strong>วันที่สั่งสินค้า</strong> <?php echo $order['orderDate']; ?></p>
-        </div>
+        <?php if ($order): ?>
+            <div class="order-info">
+                <p><strong>รหัสคำสั่งซื้อ:</strong> <?php echo $order['Order_ID']; ?></p>
+                <p><strong>วันที่สั่งสินค้า:</strong> <?php echo $order['Order_date']; ?></p>
+            </div>
 
-        <section class="delivery-info">
+            <section class="delivery-info">
                 <h2>ข้อมูลการจัดส่ง</h2>
-                <p>ชื่อคนส่งสินค้า : <?php echo $order['carrierName']; ?> เบอร์โทร : 089-xxx-xxx</p>
-        </section>
+                <p>Chainarong Furniture เบอร์โทร : 089-xxx-xxx</p>
+            </section>
 
-        <section class="delivery-address">
+            <section class="delivery-address">
                 <h2>ที่อยู่ในการจัดส่ง</h2>
-                <p><?php echo $order_product['address']; ?></p>
-        </section>
+                <p><?php echo $order['delivery_address']; ?></p>
+            </section>
 
-        <section class="order-items">
+            <section class="order-items">
                 <h2>คำสั่งซื้อของฉัน</h2>
-                <?php foreach ($order_product['items'] as $item): ?>
-                <div class="item">
-                    <img src="<?php echo $item['image_product']; ?>" alt="<?php echo $item['name']; ?>" class="item-image">
-                    <div class="item-details">
-                        <h3>ชื่อสินค้า: <?php echo $item['name']; ?></h3>
-                        <p>จำนวน: <?php echo $item['quantity']; ?></p>
-                        <p>สี: <?php echo $item['color']; ?></p>
-                        <p>ราคา: <?php echo $item['price']; ?> บาท</p>
+                <?php foreach ($order_products as $product): ?>
+                    <div class="item">
+                        <img src="<?php echo $product['image_product']; ?>" alt="<?php echo $product['name']; ?>" class="item-image">
+                        <div class="item-details">
+                            <h3>ชื่อสินค้า: <?php echo $product['name']; ?></h3>
+                            <p>จำนวน: <?php echo $product['Quantity']; ?></p>
+                            <p>สี: <?php echo $product['color']; ?></p>
+                            <p>ราคา: <?php echo number_format($product['Sub_totalprice'], 2); ?> บาท</p>
+                        </div>
                     </div>
-                </div>
                 <?php endforeach; ?>
-        </section>
+            </section>
 
-        <div class="order-status">
-            <p>สถานะ: <?php echo $order_product['status']; ?></p>
-        </div>
+            <div class="order-status">
+                <p>สถานะ: จัดส่งสินค้า 
+                    <?php
+                    // Array of statuses for which we want to display the delivery date
+                    $statusesWithDeliveryDate = [
+                        'Currently in production', 
+                        'Delivery order', 
+                        'Claim product', 
+                        'Confirm receipt of product', 
+                        'Payment made'
+                    ];
+
+                    // Check if the current order status is in the array
+                    if (in_array($order['Order_status'], $statusesWithDeliveryDate)) {
+                        echo $order['Receive_order_date']; // Display delivery date
+                    } else {
+                        echo $order['Order_status']; // Display order status if not in specified list
+                    }
+                    ?>
+                </p>
+            </div>
+        <?php else: ?>
+            <p>ไม่พบข้อมูลคำสั่งซื้อหรือสินค้า</p>
+        <?php endif; ?>
     </div>
-
 </body>
 </html>

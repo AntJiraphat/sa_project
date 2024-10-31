@@ -77,7 +77,27 @@ body {
     font-size: 24px;
 }
 
-.save-button, .delete-button {
+.buttomContainer {
+    display: flex;
+    justify-content: right; /* จัดตำแหน่งไปทางขวา */
+    margin-top: 10px; /* เพิ่มระยะห่างด้านบน */
+}
+
+.buttomContainer button {
+    padding: 15px 30px;
+    background-color: #004270;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.buttomContainer button:hover {
+    background-color: #075389;
+}
+
+
+.delete-button {
     display: inline-block;
     margin: 10px;
     padding: 10px 20px;

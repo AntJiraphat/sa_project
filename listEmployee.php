@@ -1,20 +1,20 @@
 <?php
-// ตัวอย่างข้อมูลสินค้า
-$listEmployee = [
-    ['id' => '001', 'username' => '@จิราพัชร1234', 'firstName' => 'จิราพัชร', 'lastName' => 'ฆารไสว', 'dapartment' => 'บัญชี', 'address' => 'สระบุรี แม่น้ำป่าสัก', 'phoneNum' => '092-398-8888', 'email' => 'JiJira@gmail.com'],
-    // เพิ่มสินค้าตัวอย่างเพิ่มเติมได้ที่นี่
-];
-
+// เรียกใช้การเชื่อมต่อฐานข้อมูล
+require 'database.php';
 // ตรวจสอบการค้นหา
-$search = null;
+$search = '';
 if (isset($_GET['search'])) {
-    $search = $_GET['search'];
-    // กรองข้อมูลสินค้าโดยใช้คำค้นหา
-    $listEmployee = array_filter($listEmployee, function($listEmployee) use ($search) {
-        return stripos($listEmployee['firstname'], $search) !== false ||
-               stripos($listEmployee['id'], $search) !== false ||
-               stripos($listEmployee['lastName'], $search) !== false;
-    });
+    $search = $conn->real_escape_string($_GET['search']); 
+    // ปรับคำสั่ง SQL ให้กรองด้วยคำค้นหา
+    $sql = "SELECT * FROM USERS WHERE Username LIKE '%$search%' OR User_ID LIKE '%$search%' OR First_name LIKE '%$search%' OR Last_name LIKE '%$search%' AND Role IN ('Accountant', 'Carrier', 'Manufacturer')";
+} else {
+    // ดึงข้อมูลทั้งหมดถ้าไม่มีคำค้นหาและเฉพาะ Role ที่กำหนด
+    $sql = "SELECT * FROM USERS WHERE Role IN ('Accountant', 'Carrier', 'Manufacturer')";
+}
+
+$result = $conn->query($sql);
+if (!$result) {
+    die("เกิดข้อผิดพลาดในการดึงข้อมูล: " . $conn->error);
 }
 ?>
 
@@ -33,8 +33,8 @@ if (isset($_GET['search'])) {
     <div class="header">
         <a href="profileAdmin.php" class="back-button">&lt; รายชื่อพนักงาน</a>
 
-        <form action="employeesSearch.php" method="get" style="position: absolute; top: 28px; left: 1140px; color: white; font-size: 1.2rem; text-decoration: none;">
-            <input type="search_box" name="search" placeholder="ค้นหาพนักงาน" value="<?php echo htmlspecialchars($search); ?>">
+        <form action="employeesSearch.php" method="get" style="position: absolute; top: 20px; left: 180px; color: white; font-size: 1.2rem; text-decoration: none;">
+            <input type="text" name="search" placeholder="ค้นหาพนักงาน" value="<?php echo htmlspecialchars($search); ?>">
         </form>
 
         <a href="settingEmployee.php" class="settings-button" style="position: absolute; top: 20px; left: 1300px; color: white; font-size: 1.2rem; text-decoration: none;">
@@ -63,19 +63,23 @@ if (isset($_GET['search'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php if (count($listEmployee) > 0): ?>
-                    <?php foreach ($listEmployee as $listEmployee): ?>
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while($listEmployee = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo $listEmployee['id']; ?></td>
-                            <td><?php echo $listEmployee['username']; ?></td>
-                            <td><?php echo $listEmployee['firstName']; ?></td>
-                            <td><?php echo $listEmployee['lastName']; ?></td>
-                            <td><?php echo $listEmployee['dapartment']; ?></td>
-                            <td><?php echo $listEmployee['address']; ?></td>
-                            <td><?php echo $listEmployee['phoneNum']; ?></td>
-                            <td><?php echo $listEmployee['email']; ?></td>
+                            <td><?php echo $listEmployee['User_ID']; ?></td>
+                            <td><?php echo $listEmployee['Username']; ?></td>
+                            <td><?php echo $listEmployee['First_name']; ?></td>
+                            <td><?php echo $listEmployee['Last_name']; ?></td>
+                            <td><?php echo $listEmployee['Role']; ?></td>
+                            <td><?php echo $listEmployee['Address']; ?></td>
+                            <td><?php echo $listEmployee['PhoneNum']; ?></td>
+                            <td><?php echo $listEmployee['Email']; ?></td>
                         </tr>
-                    <?php endforeach; ?>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                        <td colspan="8">ไม่พบชื่อพนักงาน</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
