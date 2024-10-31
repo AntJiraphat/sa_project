@@ -125,7 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     
     <div class="header">
-        <a href="profileEmployee.php" class="back-button">&lt; เพิ่มสินค้า</a>
+        <a href="profileAdmin.php" class="back-button">&lt; เพิ่มสินค้า</a>
 
         <a href="settingEmployee.php" class="settings-button" style="position: absolute; top: 20px; left: 1300px; color: white; font-size: 1.2rem; text-decoration: none;">
             <i class="fas fa-cog setting-icon"></i>
