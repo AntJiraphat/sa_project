@@ -33,7 +33,7 @@ if (isset($user['Role']) && !empty($user['Role'])) {
         <div class="header-buttons">
             <a class="settings-button" href="javascript:void(0);" 
                onclick="goToSettings('<?php echo htmlspecialchars($userRole); ?>')"
-               style="position: absolute; top: 20px; left: 1390px; color: white; font-size: 1.2rem; text-decoration: none;">
+               style="position: absolute; top: 20px; left: 1500px; color: white; font-size: 1.2rem; text-decoration: none;">
                 <i class="fas fa-cog"></i> 
             </a>
 

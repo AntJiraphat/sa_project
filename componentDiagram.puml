@@ -1,0 +1,33 @@
+@startuml COMPONENT_DIAGRAM
+
+package "User Management" {
+    [User]
+    [Database]
+}
+
+package "Product Management" {
+    [Product]
+    [Database]
+}
+
+package "Order Management" {
+    [Order]
+    [OrderProduct]
+    [Payment]
+    [Database]
+}
+
+package "Cart Management" {
+    [Cart]
+    [Database]
+}
+
+' Relationships
+[User] --> [Database] : interacts with >
+[Product] --> [Database] : interacts with >
+[Order] --> [Database] : interacts with >
+[OrderProduct] --> [Database] : interacts with >
+[Payment] --> [Database] : interacts with >
+[Cart] --> [Database] : interacts with >
+
+@enduml

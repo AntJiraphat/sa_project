@@ -8,7 +8,7 @@ if (!isset($_SESSION["user"])) {
 }
 
 // เชื่อมต่อกับฐานข้อมูล
-require_once 'database.php';
+require 'database.php';
 
 // ดึงข้อมูลผู้ใช้จาก session
 $user = $_SESSION["user"];

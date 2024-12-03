@@ -1,0 +1,102 @@
+@startuml CHAINARONG_FURNITURE
+
+enum Role {
+    Accountant
+    Carrier
+    Customer
+    Manufacturer
+}
+
+enum Order_status {
+    Pending
+    CurrentlyInProduction
+    Delivery
+    Claim product
+    Confirm receipt of product
+    Payment made
+}
+
+' Class definitions
+class Users {
+    + User_ID: varchar
+    + Username: varchar
+    + Password: varchar
+    + First_name: varchar
+    + Last_name: varchar
+    + Email: varchar
+    + PhoneNum: varchar
+    + Address: varchar
+    + role: Role
+    + Profile_image: varchar
+    + login()
+    + register()
+    + updateProfile()
+    + changePassword()
+    + logout()
+}
+
+class Products {
+    + Product_ID: varchar
+    + Product_name: varchar
+    + Product_detail: varchar
+    + Product_size: varchar
+    + Product_color: varchar
+    + Product_type: varchar
+    + Product_price: float
+    + Product_image: varchar
+    + addProduct()
+    + updateProduct()
+    + deleteProduct()
+    + getProductDetails()
+}
+
+class Orders {
+    + Order_ID: varchar
+    + User_ID: varchar
+    + Payment_ID: varchar
+    + Order_date: datetime
+    + Receive_order_date: datetime
+    + Order_status: Order_status
+    + Total_price: float
+    + Total_product: int
+    + createOrder()
+    + updateOrderStatus()
+    + getOrderDetails()
+}
+
+class Order_Products {
+    + Order_ID: varchar
+    + Product_ID: varchar
+    + Quantity: int
+    + Sub_totalprice: float
+    + addOrderProduct()
+    + updateQuantity()
+    + calculateSubTotal()
+}
+
+class Payments {
+    + Payment_ID: varchar
+    + Receipt_image: varchar
+    + Slip_image: varchar
+    + createPayment()
+    + uploadReceipt()
+    + uploadSlip()
+    + getPaymentDetails()
+}
+
+class Database {
+    + conn(): mysqli
+}
+
+' Relationships
+Users "1" -- "*" Orders : places >
+Orders "1" -- "*" Order_Products : contains >
+Orders "1" -- "1" Payments : has >
+Products "1" -- "*" Order_Products : included in >
+Users -- Database : uses >
+Products -- Database : uses >
+Orders -- Database : uses >
+Order_Products -- Database : uses >
+Payment -- Database : uses >
+
+@enduml

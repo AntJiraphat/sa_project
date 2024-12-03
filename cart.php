@@ -1,8 +1,32 @@
 <?php
+session_start();
+
+// ตรวจสอบการส่ง POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    var_dump($_POST); // ดูข้อมูลที่ถูกส่งมา
-    exit; // หยุดการประมวลผล
-}
+    // สร้างอาร์เรย์สำหรับเก็บสินค้าในตะกร้าถ้ายังไม่มี
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = array();
+    }
+
+    // สร้างข้อมูลสินค้าใหม่
+    $newItem = array(
+        'product_id' => $_POST['product_id'],
+        'product_name' => $_POST['product_name'],
+        'product_color' => $_POST['product_color'],
+        'product_price' => $_POST['product_price'],
+        'product_image' => $_POST['product_image'],
+        'product_type' => $_POST['product_type'],
+        'product_size' => $_POST['product_size'],
+        'quantity' => $_POST['quantity']
+    );
+
+    // เพิ่มสินค้าลงในตะกร้า
+    $_SESSION['cart'][] = $newItem;
+
+    // ส่งการตอบกลับ
+    echo "Success"; 
+    exit;
+}   
 ?>
 
 <!DOCTYPE html>

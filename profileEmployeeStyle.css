@@ -7,7 +7,6 @@ body {
 .header {
     background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
     padding: 20px;
-    text-align: left;
     color: white;
     font-size: 24px;
 }
@@ -41,54 +40,83 @@ body {
     height: 20px; /* กำหนดความสูงของรูปภาพ */
     margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
 }
-.input[type="search_box"] {
-    font-family: 'Arial', sans-serif;
-    width: 500px; /* กำหนดความกว้างที่ต้องการ */
-    padding: 600px; /* ปรับ padding ตามความต้องการ */
-    font-size: 100px; 
-}
+
 .container {
     margin: 0px auto;
     padding: 20px;
     background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     height: 100vh;
-    overflow-y: auto;
-}
-table { /*ตาราง*/
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-}
-table, th, td {
-    border: 1px solid #ddd;
-}
-th, td {
-    padding: 10px;
-    text-align: center;
-}
-th {
-    background-color: #f2f2f2;
 }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    color: #000000;
+.profile-info {
+    display: flex;
+    flex-direction: row; /* เปลี่ยนจาก column เป็น row */
+    align-items: center; /* จัดให้อยู่ตรงกลางตามแนวตั้ง */
+    justify-content: flex-start; /* จัดชิดซ้าย */
+    gap: 15px; /* เพิ่มระยะห่างระหว่างรูปและข้อความ */
 }
 
-.header form input[type="text"] {
-    width: 300px;
-    padding: 5px;
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 0; /* ลบ margin-bottom ออก */
+    padding: 20px;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile-details h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.profile-details p {
+    margin: 5px 0 0 0;
     font-size: 1rem;
-    border-radius: 20px;
-    border: 1px solid #ccc;
 }
 
-/* ปรับการจัดตำแหน่งให้อยู่ตรงกลาง */
-.header form {
-    position: absolute;
-    top: 20px;
-    left: 1100px; /* ปรับตำแหน่งตามต้องการ */
+.menu {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.menu-item {
+    background-color: #e9f0f5;
+    margin: 10px;
+    padding: 20px;
+    width: 200px;
+    font-size: 1.5rem;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+.menu-item:hover {
+    background-color: #cce7ff;
+}
+.menu-item  {
+    text-align: center;
+    padding: 10px;
+}
+.menu-item img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+.menu-item-icon {
+    font-size: 4rem;
+    color: #004270;
+    margin-bottom: 0px;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: inherit;
 }

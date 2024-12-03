@@ -164,26 +164,22 @@ if (!$product) {
                     addToCartButton.disabled = true;
 
                     // สร้าง FormData object
-                    const data = new URLSearchParams();
-                    data.append('product_id', productId);
-                    data.append('quantity', quantity.toString());
-                    data.append('product_name', '<?php echo htmlspecialchars($product["Product_name"]); ?>');
-                    data.append('product_color', '<?php echo htmlspecialchars($product["Product_color"]); ?>');
-                    data.append('product_price', '<?php echo htmlspecialchars($product["Product_price"]); ?>');
-                    data.append('product_image', '<?php echo htmlspecialchars($product["Product_image"]); ?>');
-                    data.append('product_type', '<?php echo htmlspecialchars($product["Product_type"]); ?>');
-                    data.append('product_size', '<?php echo htmlspecialchars($product["Product_size"]); ?>');
+                    const formData = new FormData();
+                    formData.append('product_id', productId);
+                    formData.append('quantity', quantity.toString());
+                    formData.append('product_name', '<?php echo htmlspecialchars($product["Product_name"]); ?>');
+                    formData.append('product_color', '<?php echo htmlspecialchars($product["Product_color"]); ?>');
+                    formData.append('product_price', '<?php echo htmlspecialchars($product["Product_price"]); ?>');
+                    formData.append('product_image', '<?php echo htmlspecialchars($product["Product_image"]); ?>');
+                    formData.append('product_type', '<?php echo htmlspecialchars($product["Product_type"]); ?>');
+                    formData.append('product_size', '<?php echo htmlspecialchars($product["Product_size"]); ?>');
 
                     fetch('cart.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: data.toString()
+                        body: formData
                     })
                     .then(response => response.text())
                     .then(data => {
-                        console.log('Response:', data);
 
                         if (!data.includes('Error')) {
                             alert("เพิ่มสินค้านี้ลงในรถเข็นของคุณแล้ว");
