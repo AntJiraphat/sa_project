@@ -1,0 +1,198 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Arial', sans-serif;
+background-color: #f5f5f5;
+}
+
+/* ส่วนหัว */
+header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    min-height: 80px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* จัดการส่วนของโลโก้และ Search Bar */
+.header-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 90px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.header-title h1 {
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* สไตล์ของไอคอนลูกศร */
+.header-title i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างลูกศรและหัวข้อ */
+}
+
+.header-title i:hover {
+    transform: scale(1.15);
+}
+
+
+
+/* จัดการไอคอน */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-left: 20px;
+}
+
+.header-icons i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.header-icons i:hover {
+    transform: scale(1.15);
+}
+
+main {
+    flex-grow: 1; /* ให้ main ขยายเต็มพื้นที่ที่เหลือ */
+    padding: 0; /* เอา padding ออก */
+}
+
+.order-details {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%; /* ปรับเป็น 100%  */
+    position: relative;
+    box-sizing: border-box;
+}
+
+.order-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 18px;
+    color: #004270;
+    margin-top: 0;
+}
+
+.delivery-info,
+.delivery-address {
+    margin-bottom: 20px;
+}
+
+.item {
+    display: flex;
+    align-items: center; 
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.item-details h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.item-details p {
+    margin: 5px 0;
+}
+
+.price {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+.order-status {
+    background-color: #062C43;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 31px;
+    text-align: center;
+    font-weight: bold;
+    position: absolute; 
+    right: 20px; /*  เว้นระยะห่างจากขอบขวา  20px  */
+    bottom: 20px; /*  เว้นระยะห่างจากขอบล่าง  20px  */
+    margin: 0;
+    font-size: 14px;
+}
+
+.alert {
+    margin-top: 100px; /* ให้อยู่ใต้ header */
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #004270;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #006699;
+}

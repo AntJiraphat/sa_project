@@ -1,0 +1,195 @@
+/* รีเซ็ตค่าเริ่มต้น */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* ส่วนหัว */
+header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    min-height: 80px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* จัดการส่วนของโลโก้และ Search Bar */
+.header-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 90px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.header-title h1 {
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* สไตล์ของไอคอนลูกศร */
+.header-title i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างลูกศรและหัวข้อ */
+}
+
+.header-title i:hover {
+    transform: scale(1.15);
+}
+
+
+
+/* จัดการไอคอน */
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-left: 20px;
+}
+
+.header-icons i {
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.header-icons i:hover {
+    transform: scale(1.15);
+}
+
+
+/* คอนเทนเนอร์หลัก */
+.order-container {
+    max-width: 100%;
+    margin: 1rem auto;
+    padding: 0 1rem;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order-container h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+/* card แต่ละ order */
+.order-card {
+    background-color: white;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    overflow: hidden; /* ป้องกันไม่ให้ปุ่มหลุดออกนอกกรอบ */
+    min-height: 140px;
+}
+
+.order-card img {
+    width: 100px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    line-height: 1.6;
+}
+
+.item-info h3 {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #e44d26;
+}
+
+/* ปุ่มลบ */
+.delete-btn {
+    background-color: transparent;
+    border: none;
+    color: #9b9b9b;
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: #ff4400;
+}
+
+/* ส่วนสรุปและปุ่มสั่งซื้อ */
+.footer-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+.footer-container div {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #EE3900;
+}
+
+.order-button {
+    background-color: #004270;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.order-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.order-button:hover {
+    background-color: #075389;
+}

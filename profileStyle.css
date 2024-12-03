@@ -1,0 +1,97 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.profileUser-header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    color: white;
+    width: 100%;
+    height: 363px;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.profileUser-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 50px;
+    margin-left: 20px;
+}
+
+.profileUser-details h2 {
+    margin: 10px 0 5px 0;
+    color: white;
+}
+
+.profileUser-details p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.profileUser-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    margin-top: -50px;
+}
+
+.profileUser-menu-item {
+    background-color: #e9f0f5;
+    padding: 20px;
+    width: 200px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;  /* เพิ่มบรรทัดนี้เพื่อลบเส้นใต้ */
+    display: flex;          /* เพิ่มเพื่อจัดการ layout */
+    flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+    align-items: center; 
+}
+
+.profileUser-menu-item:hover {
+    background-color: #cce7ff;
+    transform: translateY(-5px);
+}
+
+.profileUser-menu-icon {
+    font-size: 4rem;
+    color: #004270;
+    margin-bottom: 10px;
+}
+
+.profileUser-menu-item p {
+    color: #333;
+    font-weight: 500;
+    margin: 0;         
+    text-decoration: none;
+}
+
+.header-buttons a {
+    transition: transform 0.2s ease;
+}
+
+.header-buttons a:hover {
+    transform: scale(1.1);
+}
+
+.profileUser-container {
+    min-height: calc(100vh - 300px); /* Adjusted to match new header height */
+    padding: 60px 20px 20px; /* Increased top padding */
+    position: relative;
+    background-color: white;
+}

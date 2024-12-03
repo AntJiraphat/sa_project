@@ -1,0 +1,143 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F5F5F5;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background: linear-gradient(to right, #004270, #006699, #0099cc, #FDF7C0);
+    padding: 20px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+.header a {
+    text-decoration: none;
+    font-size: 18px;
+}
+.back-button { /*ปุ่มกดกลับ*/
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right: 10px; /* เพิ่มระยะห่างระหว่างปุ่ม */
+}
+.settings-button { /*ปุ่มกดsetting*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center; /* จัดให้ไอคอนและข้อความอยู่ตรงกลาง */
+}
+.setting-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+.profile-button { /*ปุ่มกดprofile*/
+    color: white;
+    padding: 10px 15px;
+    align-items: center
+}
+.profile-icon {
+    width: 20px; /* กำหนดความกว้างของรูปภาพ */
+    height: 20px; /* กำหนดความสูงของรูปภาพ */
+    margin-right: 5px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อความ */
+}
+
+.container {
+    display: flex;
+    margin: 0px auto;
+    padding: 10px;
+    background-color: #fff;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.form-wrapper {
+    display: flex;
+    width: 80%;
+    gap: 120px; /* เพิ่มช่องว่างระหว่างฝั่งซ้ายกับขวา */
+}
+
+.left, .right {
+    margin: 10px;
+    padding: 50px;
+}
+
+.left {
+    flex: 1;
+    text-align: center;
+}
+
+.right {
+    flex: 2;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+.right input, .right textarea, .right select {
+    width: 900px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+select {
+    width: 150px; /* กำหนดความกว้างของ dropdown */
+    padding: 5px; /* กำหนด padding ให้พอดี */
+    font-size: 14px; /* ขนาดของตัวอักษรภายใน dropdown */
+}
+
+
+.line {
+    background-color: #004270;
+    padding: 1px;
+    text-align: left;
+    color: white;
+    font-size: 24px;
+}
+
+.buttomContainer {
+    background-color: #fff;
+    text-align: right;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+.buttomContainer input[type="submit"] {
+    padding: 15px 30px;
+    background-color: #004270;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.buttomContainer input[type="submit"]:hover {
+    background-color: #075389;
+}
+
+.image-upload {
+    position: relative;
+    width: 300px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.image-upload img {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.image-upload input {
+    display: none;
+}
+
